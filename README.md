@@ -2,6 +2,8 @@
 
 # Resumo:
 
+Um homem decide escalar uma montanha para sair de seus vícios.
+
 # Lore:
 
 Você esta na pele de um pai de família, {Nome}. John é um usuário de drogas e alcoólatra, isso começou depois de seu casamento com sua esposa: {Nome Esposa}. Ele sempre voltava de bares extremamente bêbado. Quando chegava, sempre havia alguma discussão, e sempre por alguma besteira. Depois de algum tempo, {Nome Esposa} decide dar um fim nesta situação. {Nome Esposa} decide expulsar {Nome} de casa até que ele mudasse.
@@ -26,7 +28,7 @@ A arte do jogo Mountain climbing é uma mistura de pixel arte com arte tradicion
 
 ## Arte a mão
 
-As artes serão inspiradas em antigas artes de projetos antigos para não fazer quase tudo do absoluto zero
+As artes serão inspiradas em antigas artes de projetos antigos para não fazer quase tudo do absoluto zero.
 
 # Integrantes 
 
