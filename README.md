@@ -6,7 +6,7 @@ Um homem decide escalar uma montanha para sair de seus vícios.
 
 # Lore:
 
-Você esta na pele de um pai de família, {Nome}. John é um usuário de drogas e alcoólatra, isso começou depois de seu casamento com sua esposa: {Nome Esposa}. Ele sempre voltava de bares extremamente bêbado. Quando chegava, sempre havia alguma discussão, e sempre por alguma besteira. Depois de algum tempo, {Nome Esposa} decide dar um fim nesta situação. {Nome Esposa} decide expulsar {Nome} de casa até que ele mudasse.
+Você esta na pele de um pai de família, Joseph Jomine. Joseph é um usuário de drogas e alcoólatra, isso começou depois de seu casamento com sua esposa: {Nome Esposa}. Ele sempre voltava de bares extremamente bêbado. Quando chegava, sempre havia alguma discussão, e sempre por alguma besteira. Depois de algum tempo, Marta Alvered decide dar um fim nesta situação. Marta decide expulsar Joseph de casa até que ele mudasse.
 
 Depois de algum tempo, você percebe o quão ruim você é, mas você já está completamente corrompido pelas drogas e pelo cerveja. Então você decide ir para uma clinica de reabilitação. Lá ele vê que não seria fácil, como você já havia quase sido repeso, alguns ali já o conheciam.
 
