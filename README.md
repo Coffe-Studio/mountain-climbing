@@ -38,3 +38,13 @@ As artes serão inspiradas em antigas artes de projetos antigos para não fazer 
 | Erick | {Cargo} | {Detalhes} |
 | Nicolas | {Cargo} | {Detalhes} |
 | Rika | {Cargo} | {Detalhes} |
+
+# Sistema de arquivos
+
+# Develop Doc
+
+## Darlyson sistemas
+
+## Erick sistemas
+
+> Coffe-Studio ☕️
