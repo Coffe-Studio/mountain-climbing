@@ -40,11 +40,42 @@ As artes serão inspiradas em antigas artes de projetos antigos para não fazer 
 | Rika | {Cargo} | {Detalhes} |
 
 # Sistema de arquivos
-
-# Develop Doc
-
-## Darlyson sistemas
-
-## Erick sistemas
+```
+res://
+├── docs/
+│   └── developer_doc/
+├── assets/
+│   ├── models # assets 3D
+│   ├── themes
+│   └── ui
+├── src/
+│   ├── autoloads
+│   ├── config
+|   ├── objects
+│   ├── entities/
+│   │   ├── player/
+│   │   │   ├── assets/
+│   │   │   │   ├── sprites
+│   │   │   │   ├── audio
+│   │   │   │   └── materials
+│   │   │   ├── player.tscn
+│   │   │   └── player.gd
+│   │   └── enemies/
+│   │       └── enemy_type_0/
+│   │           ├── assets/
+│   │           │   ├── sprites
+│   │           │   ├── audio
+│   │           │   └── materials
+│   │           ├── enemy_type_0.tscn
+│   │           └── enemy_type_0.gd
+│   ├── maps/
+│   ├── systems/
+│   └── ui/
+├── .editorconfig
+├── .gitignore
+├── icon.png
+├── project.godot
+└── README.md
+```
 
 > Coffe-Studio ☕️
