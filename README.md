@@ -77,5 +77,14 @@ res://
 ├── project.godot
 └── README.md
 ```
+# Sistema de gameplay
+
+Em um jogo, o sistema de gameplay é uma das coisas mais importantes para fazer um bom jogo. o sistema de gameplay é uma das mais importantes.
+
+## como pode ser os sistemas de `moveset` do jogador?
+
+Como o jogo é sobre escaladas, uma das mecânicas principais é de escalar usando uma corda, que será usada junto do mouse para es escalar entre paredes elevadas.
+
+Quero que o sistema de andar (do jogador) seja simplificada. Apenas: Andar, correr, pular (baixo ou alto) dependendo de quanto tempo você aperta a barra de espaço
 
 > Coffe-Studio ☕️
