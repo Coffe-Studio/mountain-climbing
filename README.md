@@ -26,67 +26,6 @@ A arte do jogo Mountain climbing é uma mistura de pixel arte com arte tradicion
 
 ![PixelArte1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.eIIKpHKUFW16SETPXYhtRwHaEK%3Fpid%3DApi&f=1&ipt=612d6af74c88e79f2f55080ed471af88e3916c14deb5601ed7b0b7e3a80966ee&ipo=images)
 
-## Arte a mão
-
-As artes serão inspiradas em antigas artes de projetos antigos para não fazer quase tudo do absoluto zero.
-
-# Integrantes 
-
-| Nome | Cargos | Detalhes |
-| --------| -------- | ---------------|
-| Darlyson | {Cargo} | {Detalhes} |
-| Erick | {Cargo} | {Detalhes} |
-| Nicolas | {Cargo} | {Detalhes} |
-| Rika | {Cargo} | {Detalhes} |
-
-# Sistema de arquivos
-```
-res://
-├── docs/
-│   └── developer_doc/
-├── assets/
-│   ├── models # assets 3D
-│   ├── themes
-│   └── ui
-├── src/
-│   ├── autoloads
-│   ├── config
-|   ├── objects
-│   ├── entities/
-│   │   ├── player/
-│   │   │   ├── assets/
-│   │   │   │   ├── sprites
-│   │   │   │   ├── audio
-│   │   │   │   └── materials
-│   │   │   ├── player.tscn
-│   │   │   └── player.gd
-│   │   └── enemies/
-│   │       └── enemy_type_0/
-│   │           ├── assets/
-│   │           │   ├── sprites
-│   │           │   ├── audio
-│   │           │   └── materials
-│   │           ├── enemy_type_0.tscn
-│   │           └── enemy_type_0.gd
-│   ├── maps/
-│   ├── systems/
-│   └── ui/
-├── .editorconfig
-├── .gitignore
-├── icon.png
-├── project.godot
-└── README.md
-```
-# Sistema de gameplay
-
-Em um jogo, o sistema de gameplay é uma das coisas mais importantes para fazer um bom jogo. o sistema de gameplay é uma das mais importantes.
-
-## como pode ser os sistemas de `moveset` do jogador?
-
-Como o jogo é sobre escaladas, uma das mecânicas principais é de escalar usando uma corda, que será usada junto do mouse para es escalar entre paredes elevadas.
-
-Quero que o sistema de andar (do jogador) seja simplificada. Apenas: Andar, correr, pular (baixo ou alto) dependendo de quanto tempo você aperta a barra de espaço
-
 > Coffe-Studio ☕️
 
 
