@@ -18,26 +18,13 @@ Você fala para todos ele que que irá conseguir, que ira provar para todos que 
 
 # Arte
 
-A arte do jogo Mountain climbing é uma mistura de pixel arte com arte tradicional (feita a mão)
+A arte do jogo Mountain climbing é uma de pixel arte.
 
 ## Pixel Arte
 
 ![PixelArte1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.Mr8fbkZo9l7MWoGYZZJYewHaEK%3Fpid%3DApi&f=1&ipt=b1b0255d13e4e0c8789a1db46720b2bbbcbd3322f5a3745177faa00b49aff4d6&ipo=images)
 
 ![PixelArte1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.eIIKpHKUFW16SETPXYhtRwHaEK%3Fpid%3DApi&f=1&ipt=612d6af74c88e79f2f55080ed471af88e3916c14deb5601ed7b0b7e3a80966ee&ipo=images)
-
-## Arte a mão
-
-As artes serão inspiradas em antigas artes de projetos antigos para não fazer quase tudo do absoluto zero.
-
-# Integrantes 
-
-| Nome | Cargos | Detalhes |
-| --------| -------- | ---------------|
-| Darlyson | {Cargo} | {Detalhes} |
-| Erick | {Cargo} | {Detalhes} |
-| Nicolas | {Cargo} | {Detalhes} |
-| Rika | {Cargo} | {Detalhes} |
 
 # Sistema de arquivos
 ```
