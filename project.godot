@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Alys"
+config/name="Mountain"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -22,6 +22,7 @@ Helpers="*res://addons/2d_essentials/autoload/helpers.tscn"
 
 window/size/viewport_width=320
 window/size/viewport_height=180
+window/size/mode=2
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
@@ -93,4 +94,4 @@ climb={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+anti_aliasing/quality/msaa_2d=1

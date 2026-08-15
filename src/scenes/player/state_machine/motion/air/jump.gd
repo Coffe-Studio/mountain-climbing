@@ -19,6 +19,7 @@ func physics_update(delta):
 			.apply_air_friction_vertical()
 		
 	if Input.is_action_just_pressed("jump"):
+		# Colocar som de pulo aqui
 		jump()
 
 	if Input.is_action_just_released("jump"):
