@@ -18,4 +18,3 @@ func _physics_process(delta):
 
 func on_state_changed(_previous_state, new_state):
 	current_state_label.text = new_state.name
-

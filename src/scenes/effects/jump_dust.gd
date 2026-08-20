@@ -18,4 +18,3 @@ func _ready():
 		animation_player.play(current_animation)
 	else:
 		push_error("The animation {name} does not exists on the animation player list".format({"name": current_animation}))
-
