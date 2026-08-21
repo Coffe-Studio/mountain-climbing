@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dch3magr7g4l2"
-path="res://.godot/imported/SprSpike.png-86635d568174a00e4a94647f1dc8d94d.ctex"
+uid="uid://c7mf5hcgjntt0"
+path="res://.godot/imported/so_o_titulo.png-122ec31f0a45963c7969c74b044391ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/SprSpike.png"
-dest_files=["res://.godot/imported/SprSpike.png-86635d568174a00e4a94647f1dc8d94d.ctex"]
+source_file="res://assets/mc logo/so_o_titulo.png"
+dest_files=["res://.godot/imported/so_o_titulo.png-122ec31f0a45963c7969c74b044391ae.ctex"]
 
 [params]
 

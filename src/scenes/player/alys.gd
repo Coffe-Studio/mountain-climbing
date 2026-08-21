@@ -15,7 +15,7 @@ func _ready():
 	disable_effects()
 	animation_player.animation_finished.connect(on_animation_player_finished) 
 
-func _process(delta):
+func _process(_delta):
 	_update_sprite_flip()
 	_update_ledge_climb_detector()
 
@@ -39,7 +39,7 @@ func disable_effects():
 			effect.emitting = false
 
 
-func _on_hurtbox_area_entered(area):
+func _on_hurtbox_area_entered(_area):
 	animation_player.play("death")
 	godot_essentials_finite_state_machine.lock_state_machine()
 	

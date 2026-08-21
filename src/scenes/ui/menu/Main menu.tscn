@@ -1,62 +1,135 @@
 [gd_scene format=3 uid="uid://bha0ajeho2b8q"]
 
 [ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menu/Main menu.gd" id="1_qyhnx"]
-[ext_resource type="Texture2D" uid="uid://qoyvytj5qbsf" path="res://assets/environment/backgrounds/backgrond_menu_.png" id="2_uo3f2"]
+[ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/background1.png" id="2_g22xl"]
+[ext_resource type="Texture2D" uid="uid://c7mf5hcgjntt0" path="res://assets/mc logo/so_o_titulo.png" id="3_dnj3q"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_470wt"]
-font_size = 20
+[sub_resource type="Animation" id="Animation_g22xl"]
+resource_name = "Camera_IN"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.27739257, 0.19614601),
+"update": 0,
+"values": [Vector2(160, 30), Vector2(160, 90)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.25000006, 0.43527535),
+"update": 0,
+"values": [0.17453292519943295, 0.0]
+}
 
-[node name="Main menu" type="Node2D" unique_id=44695750]
+[sub_resource type="Animation" id="Animation_dnj3q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(160, 28)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2617993877991494]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ncxqe"]
+_data = {
+&"Camera_IN": SubResource("Animation_g22xl"),
+&"RESET": SubResource("Animation_dnj3q")
+}
+
+[node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("animation")]
 script = ExtResource("1_qyhnx")
+animation = NodePath("Camera2D/AnimationPlayer")
 
-[node name="Background" type="CanvasLayer" parent="." unique_id=1591160824]
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1434753764]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(319, 0)
+repeat_times = 2
 
-[node name="BackgrondMenu" type="Sprite2D" parent="Background" unique_id=1422032528]
-position = Vector2(159.99998, 94.75)
-scale = Vector2(0.5555555, 0.41366905)
-texture = ExtResource("2_uo3f2")
+[node name="BackgrondMenu" type="Sprite2D" parent="Parallax2D" unique_id=1422032528]
+position = Vector2(159.5, 90.000015)
+scale = Vector2(0.5538194, 0.57098764)
+texture = ExtResource("2_g22xl")
 
-[node name="Center" type="CanvasLayer" parent="." unique_id=294861285]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1444511565]
+position = Vector2(160, 28)
+rotation = 0.2617994
+ignore_rotation = false
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Center" unique_id=325194069]
-offset_top = 157.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D" unique_id=535712325]
+libraries/ = SubResource("AnimationLibrary_ncxqe")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=325194069]
+offset_top = 150.0
 offset_right = 319.0
-offset_bottom = 179.0
+offset_bottom = 172.0
 theme_override_constants/separation = 15
 alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="Play" type="Button" parent="Center/HBoxContainer2" unique_id=1965462441]
+[node name="Play" type="Button" parent="HBoxContainer2" unique_id=1965462441]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Play"
 
-[node name="Settings" type="Button" parent="Center/HBoxContainer2" unique_id=312966621]
+[node name="Settings" type="Button" parent="HBoxContainer2" unique_id=312966621]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Settings"
 
-[node name="Quit" type="Button" parent="Center/HBoxContainer2" unique_id=1687446670]
+[node name="Quit" type="Button" parent="HBoxContainer2" unique_id=1687446670]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Quit "
 
-[node name="Top" type="CanvasLayer" parent="." unique_id=1989916012]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1433549830]
+position = Vector2(160, 82.3)
+scale = Vector2(0.4166667, 0.41103122)
+texture = ExtResource("3_dnj3q")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Top" unique_id=1198742475]
-offset_left = 2.0
-offset_right = 321.0
-offset_bottom = 59.0
-alignment = 1
+[node name="BackgrondMenu5" type="Sprite2D" parent="." unique_id=1844139409]
+position = Vector2(159.99998, -90.99997)
+scale = Vector2(1.6388887, 0.57098764)
+texture = ExtResource("2_g22xl")
+flip_v = true
 
-[node name="Label" type="Label" parent="Top/HBoxContainer" unique_id=1794306979]
-layout_mode = 2
-text = "Mountain Clinbing"
-label_settings = SubResource("LabelSettings_470wt")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="BackgrondMenu4" type="Sprite2D" parent="." unique_id=1100744066]
+position = Vector2(163.99998, 272.00003)
+scale = Vector2(1.6527778, 0.57098764)
+texture = ExtResource("2_g22xl")
+flip_v = true
 
-[connection signal="pressed" from="Center/HBoxContainer2/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Play" to="." method="_on_play_pressed"]
