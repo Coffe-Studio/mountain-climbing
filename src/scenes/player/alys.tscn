@@ -19,7 +19,9 @@
 [ext_resource type="Script" uid="uid://cv3v2jh5jtfrm" path="res://src/scenes/player/state_machine/motion/wall/wall_climb.gd" id="18_yoljg"]
 [ext_resource type="Script" uid="uid://dm8twmgh2luh" path="res://src/scenes/player/state_machine/motion/special/neutral.gd" id="19_0hmjx"]
 [ext_resource type="Script" uid="uid://c0n0dlfhqove6" path="res://src/scenes/player/state_machine/motion/special/bounce.gd" id="20_aafqd"]
+[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="21_1ymoh"]
 [ext_resource type="Script" uid="uid://ca17x18x4vycf" path="res://src/scenes/player/debug_display.gd" id="21_adfd7"]
+[ext_resource type="AudioStream" uid="uid://b5vljvoo60xp2" path="res://assets/sonds/Neve.wav" id="22_jjk5h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2r554"]
 size = Vector2(12, 14)
@@ -505,11 +507,16 @@ _data = {
 &"death": SubResource("Animation_jt4u8")
 }
 
-[node name="Alys" type="CharacterBody2D" unique_id=89236313 groups=["player"]]
+[node name="Alys" type="CharacterBody2D" unique_id=89236313 node_paths=PackedStringArray("neve_son") groups=["player"]]
 z_index = 20
 collision_layer = 32
 script = ExtResource("1_kcxb2")
+neve_son = NodePath("NeveSond")
 metadata/_edit_vertical_guides_ = [-203.0]
+
+[node name="DashSond" type="AudioStreamPlayer2D" parent="." unique_id=700450537]
+stream = ExtResource("21_1ymoh")
+volume_db = -11.257
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1554538213]
 process_callback = 0
@@ -624,8 +631,9 @@ script = ExtResource("15_hvddt")
 [node name="Fall" type="Node" parent="GodotEssentialsFiniteStateMachine/Air" unique_id=201313043]
 script = ExtResource("16_a8ak6")
 
-[node name="Dash" type="Node" parent="GodotEssentialsFiniteStateMachine/Air" unique_id=740248040]
+[node name="Dash" type="Node" parent="GodotEssentialsFiniteStateMachine/Air" unique_id=740248040 node_paths=PackedStringArray("SondDash")]
 script = ExtResource("17_vwojp")
+SondDash = NodePath("../../../DashSond")
 
 [node name="Wall" type="Node" parent="GodotEssentialsFiniteStateMachine" unique_id=78878439]
 
@@ -641,7 +649,6 @@ script = ExtResource("19_0hmjx")
 script = ExtResource("20_aafqd")
 
 [node name="DebugDisplay" type="Control" parent="." unique_id=742619270]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -654,6 +661,7 @@ offset_left = -19.0
 offset_top = -37.0
 offset_right = 21.0
 offset_bottom = -14.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.50980395)
 theme_override_font_sizes/font_size = 8
 text = "State"
 horizontal_alignment = 1
@@ -666,6 +674,13 @@ offset_left = -13.0
 offset_top = -38.0
 offset_right = 27.0
 offset_bottom = -31.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.50980395)
+theme_override_constants/shadow_offset_x = 1
 theme_override_font_sizes/font_size = 4
+
+[node name="NeveSond" type="AudioStreamPlayer2D" parent="." unique_id=763357574]
+stream = ExtResource("22_jjk5h")
+volume_db = -29.936
+autoplay = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

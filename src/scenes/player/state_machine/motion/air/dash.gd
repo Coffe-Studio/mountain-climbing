@@ -1,5 +1,6 @@
 class_name Dash extends Air
 
+@export var SondDash : AudioStreamPlayer2D
 @export var dash_effect_times: int = 3
 @onready var shake_camera_component_2d = $"../../../Camera2D/ShakeCameraComponent2D" as ShakeCameraComponent2D
 @onready var dash_trail: CPUParticles2D = $"../../../Effects/DashTrail"
@@ -66,6 +67,7 @@ func physics_update(delta):
 
 
 func dash():
+	SondDash.play()
 	godot_essentials_platformer_movement.decelerate(0.0, true).dash(input_direction)
 	dash_animation_time = 0
 	shake_camera_component_2d.shake(1.0)

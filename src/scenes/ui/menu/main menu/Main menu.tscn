@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bha0ajeho2b8q"]
 
-[ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menu/Main menu.gd" id="1_qyhnx"]
+[ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menu/main menu/Main menu.gd" id="1_qyhnx"]
 [ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/background1.png" id="2_g22xl"]
 [ext_resource type="Texture2D" uid="uid://c7mf5hcgjntt0" path="res://assets/mc logo/so_o_titulo.png" id="3_dnj3q"]
+[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="4_lt4el"]
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -14,7 +15,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.27739257, 0.19614601),
+"transitions": PackedFloat32Array(0.11662925, 0.19614601),
 "update": 0,
 "values": [Vector2(160, 30), Vector2(160, 90)]
 }
@@ -26,9 +27,33 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.25000006, 0.43527535),
+"transitions": PackedFloat32Array(0.14865099, 0.43527535),
 "update": 0,
 "values": [0.17453292519943295, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HBoxContainer2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.23325834, 0.25881627),
+"update": 0,
+"values": [Vector2(0, 168), Vector2(0, 150)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../HBoxContainer2:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.32987702, 1),
+"update": 0,
+"values": [0.0, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_dnj3q"]
@@ -57,6 +82,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.2617993877991494]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HBoxContainer2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 168)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../HBoxContainer2:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ncxqe"]
 _data = {
@@ -64,8 +113,9 @@ _data = {
 &"RESET": SubResource("Animation_dnj3q")
 }
 
-[node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("animation")]
+[node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("SondInitial", "animation")]
 script = ExtResource("1_qyhnx")
+SondInitial = NodePath("AudioStreamPlayer2D")
 animation = NodePath("Camera2D/AnimationPlayer")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1434753764]
@@ -88,10 +138,22 @@ rotation_smoothing_enabled = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D" unique_id=535712325]
 libraries/ = SubResource("AnimationLibrary_ncxqe")
 
+[node name="BackgrondMenu5" type="Sprite2D" parent="." unique_id=1844139409]
+position = Vector2(159.99998, -94.749985)
+scale = Vector2(1.6388887, 0.5941359)
+texture = ExtResource("2_g22xl")
+flip_v = true
+
+[node name="BackgrondMenu4" type="Sprite2D" parent="." unique_id=1100744066]
+position = Vector2(163.99998, 234.75003)
+scale = Vector2(1.6527778, 0.3410493)
+texture = ExtResource("2_g22xl")
+flip_v = true
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=325194069]
-offset_top = 150.0
+offset_top = 168.0
 offset_right = 319.0
-offset_bottom = 172.0
+offset_bottom = 190.0
 theme_override_constants/separation = 15
 alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -115,21 +177,21 @@ theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Quit "
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1433549830]
+[node name="Quit2" type="Button" parent="HBoxContainer2" unique_id=71760896]
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 10
+action_mode = 0
+text = "R"
+
+[node name="title" type="Sprite2D" parent="." unique_id=1433549830]
 position = Vector2(160, 82.3)
 scale = Vector2(0.4166667, 0.41103122)
 texture = ExtResource("3_dnj3q")
 
-[node name="BackgrondMenu5" type="Sprite2D" parent="." unique_id=1844139409]
-position = Vector2(159.99998, -90.99997)
-scale = Vector2(1.6388887, 0.57098764)
-texture = ExtResource("2_g22xl")
-flip_v = true
-
-[node name="BackgrondMenu4" type="Sprite2D" parent="." unique_id=1100744066]
-position = Vector2(163.99998, 272.00003)
-scale = Vector2(1.6527778, 0.57098764)
-texture = ExtResource("2_g22xl")
-flip_v = true
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=948266358]
+stream = ExtResource("4_lt4el")
+volume_db = -12.926
 
 [connection signal="pressed" from="HBoxContainer2/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Quit2" to="." method="_on_quit_2_pressed"]

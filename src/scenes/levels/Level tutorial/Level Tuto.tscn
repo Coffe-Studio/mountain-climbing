@@ -15,8 +15,7 @@ angle_min = -90.0
 angle_max = 90.0
 spread = 20.0
 gravity = Vector3(0, 20, 0)
-scale_min = 0.5
-scale_max = 1.5
+scale_max = 2.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ys4rg"]
 texture = ExtResource("2_qgkua")
@@ -1223,7 +1222,7 @@ shadow_color = Color(0, 0, 0, 1)
 
 [node name="background" type="Parallax2D" parent="." unique_id=1014184570]
 scroll_scale = Vector2(0.2, 1)
-scroll_offset = Vector2(-308, -2)
+scroll_offset = Vector2(-83, -2)
 repeat_size = Vector2(576, 0)
 
 [node name="Background1" type="Sprite2D" parent="background" unique_id=670523841]
@@ -1243,7 +1242,6 @@ flip_v = true
 position = Vector2(14, 121)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Alys" unique_id=1625543975]
-visible = false
 amount = 600
 lifetime = 5.0
 preprocess = 5.0
