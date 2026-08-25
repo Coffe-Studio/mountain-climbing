@@ -14,14 +14,12 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Mountain"
+config/name="Mountain Clinbing"
 run/main_scene="res://src/scenes/ui/menu/main menu/Main menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
-boot_splash/stretch_mode=0
-boot_splash/use_filter=false
-boot_splash/image="res://assets/mc logo/logo_de_mountain_climbing.png"
-config/icon="res://assets/mc logo/logo_de_mountain_climbing.png"
+boot_splash/image="uid://cxwj0jr5cfvlm"
+config/icon="uid://b0tsulaki3ulg"
 
 [autoload]
 

@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bd6catlyimm0g"]
 
-[ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/background1.png" id="1_cqqb7"]
+[ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/bg2.png" id="1_cqqb7"]
 [ext_resource type="PackedScene" uid="uid://cxi3ivpubf42w" path="res://src/scenes/player/alys.tscn" id="1_dq2ha"]
 [ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="2_qgkua"]
 [ext_resource type="Texture2D" uid="uid://qqbchvllsyu8" path="res://assets/tilesets/8x8_nature.png" id="3_cqqb7"]
@@ -1220,18 +1220,20 @@ shadow_color = Color(0, 0, 0, 1)
 
 [node name="Level Tuto" type="Node2D" unique_id=154838651]
 
-[node name="background" type="Parallax2D" parent="." unique_id=1014184570]
+[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=891585015]
+
+[node name="background" type="Parallax2D" parent="CanvasGroup" unique_id=1014184570]
 scroll_scale = Vector2(0.2, 1)
 scroll_offset = Vector2(-83, -2)
 repeat_size = Vector2(576, 0)
 
-[node name="Background1" type="Sprite2D" parent="background" unique_id=670523841]
+[node name="Background1" type="Sprite2D" parent="CanvasGroup/background" unique_id=670523841]
 position = Vector2(299.5, 21.5)
 scale = Vector2(1.0711806, 1.0401235)
 texture = ExtResource("1_cqqb7")
 flip_h = true
 
-[node name="Background3" type="Sprite2D" parent="background" unique_id=578167805]
+[node name="Background3" type="Sprite2D" parent="CanvasGroup/background" unique_id=578167805]
 position = Vector2(302.99997, -298)
 scale = Vector2(2.065972, 1.0401235)
 texture = ExtResource("1_cqqb7")
@@ -1242,6 +1244,7 @@ flip_v = true
 position = Vector2(14, 121)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Alys" unique_id=1625543975]
+visible = false
 amount = 600
 lifetime = 5.0
 preprocess = 5.0
