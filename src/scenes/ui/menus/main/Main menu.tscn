@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bha0ajeho2b8q"]
 
-[ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menu/main menu/Main menu.gd" id="1_qyhnx"]
-[ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_lt4el"]
-[ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/mc logo/title .png" id="3_lt4el"]
-[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="4_lt4el"]
+[ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menus/main/Main menu.gd" id="1_p0cpe"]
+[ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_34mvd"]
+[ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/ogo/title .png" id="3_p0cpe"]
+[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="4_fn25p"]
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -70,6 +70,106 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.47568232, 0.93303293),
 "update": 0,
 "values": [Vector2(160, 90), Vector2(104, 130)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:zoom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.8122525, 0.40612617),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../HBoxContainer2:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(-0.1, 1.03),
+"transitions": PackedFloat32Array(2.0000002, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../HBoxContainer2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.03),
+"transitions": PackedFloat32Array(0.63728076, 1),
+"update": 0,
+"values": [Vector2(0, 150), Vector2(0, 164)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../HBoxContainer2:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.03),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ColorRect:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_34mvd"]
+resource_name = "Quit_out"
+length = 1.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.47568232, 0.93303293),
+"update": 0,
+"values": [Vector2(160, 90), Vector2(220, 130)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -255,11 +355,113 @@ tracks/7/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_bsjkl"]
+resource_name = "Settings_out"
+length = 1.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.47568232, 0.93303293),
+"update": 0,
+"values": [Vector2(160, 90), Vector2(160, 130)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:zoom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.8122525, 0.40612617),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../HBoxContainer2:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(-0.1, 1.03),
+"transitions": PackedFloat32Array(2.0000002, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../HBoxContainer2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.03),
+"transitions": PackedFloat32Array(0.63728076, 1),
+"update": 0,
+"values": [Vector2(0, 150), Vector2(0, 164)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../HBoxContainer2:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.03),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ColorRect:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ncxqe"]
 _data = {
 &"Camera_IN": SubResource("Animation_g22xl"),
 &"Play_out": SubResource("Animation_lt4el"),
-&"RESET": SubResource("Animation_dnj3q")
+&"Quit_out": SubResource("Animation_34mvd"),
+&"RESET": SubResource("Animation_dnj3q"),
+&"Settings_out": SubResource("Animation_bsjkl")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_lt4el"]
@@ -270,7 +472,7 @@ shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.1882353)
 
 [node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("SondInitial", "animation")]
-script = ExtResource("1_qyhnx")
+script = ExtResource("1_p0cpe")
 SondInitial = NodePath("AudioStreamPlayer2D")
 animation = NodePath("Camera2D/AnimationPlayer")
 
@@ -282,13 +484,13 @@ repeat_times = 2
 [node name="BackgrondMenu3" type="Sprite2D" parent="Parallax2D" unique_id=1635631139]
 position = Vector2(162.74998, -94.00001)
 scale = Vector2(0.16953126, 0.17407408)
-texture = ExtResource("2_lt4el")
+texture = ExtResource("2_34mvd")
 flip_v = true
 
 [node name="BackgrondMenu" type="Sprite2D" parent="Parallax2D" unique_id=1422032528]
 position = Vector2(162.74998, 88.5)
 scale = Vector2(0.16953126, 0.18611111)
-texture = ExtResource("2_lt4el")
+texture = ExtResource("2_34mvd")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1444511565]
 position = Vector2(160, 28)
@@ -339,20 +541,13 @@ theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Quit "
 
-[node name="Restart" type="Button" parent="HBoxContainer2" unique_id=71760896]
-layout_mode = 2
-focus_mode = 1
-theme_override_font_sizes/font_size = 10
-action_mode = 0
-text = "R"
-
 [node name="Title" type="Sprite2D" parent="." unique_id=1433549830]
 position = Vector2(160.00002, 42.299995)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_lt4el")
+texture = ExtResource("3_p0cpe")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=948266358]
-stream = ExtResource("4_lt4el")
+stream = ExtResource("4_fn25p")
 volume_db = -12.926
 
 [node name="Version" type="Label" parent="." unique_id=1208997594]
@@ -366,5 +561,5 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="HBoxContainer2/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="HBoxContainer2/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="HBoxContainer2/Restart" to="." method="_on_restart_pressed"]

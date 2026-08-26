@@ -13,8 +13,12 @@ func _on_play_pressed():
 	await animation.animation_finished
 	get_tree().change_scene_to_file("res://src/scenes/levels/Level tutorial/Level Tuto.tscn")
 
-func _on_restart_pressed():
-	get_tree().change_scene_to_file("res://src/scenes/ui/menu/main menu/Main menu.tscn")
-
 func _on_quit_pressed():
+	animation.play("Quit_out")
+	await animation.animation_finished
 	get_tree().quit(0)
+
+func _on_settings_pressed():
+	animation.play("Settings_out")
+	await animation.animation_finished
+	get_tree().change_scene_to_file("res://src/scenes/ui/menus/settings/Settings menu.tscn")

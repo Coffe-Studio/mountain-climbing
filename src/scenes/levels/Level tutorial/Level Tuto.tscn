@@ -1244,7 +1244,6 @@ flip_v = true
 position = Vector2(14, 121)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Alys" unique_id=1625543975]
-visible = false
 amount = 600
 lifetime = 5.0
 preprocess = 5.0
