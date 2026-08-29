@@ -11,7 +11,7 @@ func _ready():
 	godot_essentials_platformer_movement = owner.get_node("GodotEssentialsPlatformerMovementComponent") as GodotEssentialsPlatformerMovementComponent
 	animated_sprite = owner.get_node("AnimatedSprite2D") as AnimatedSprite2D
 	
-func physics_update(delta):
+func physics_update(_delta):
 	get_input_direction()
 	
 				

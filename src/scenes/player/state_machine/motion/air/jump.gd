@@ -79,5 +79,5 @@ func display_jump_effects(position: Vector2) -> void:
 		get_tree().root.add_child(jump_dust_effect)
 		jump_dust_effect.position = position
 
-func display_wall_jump_effects(position: Vector2):
+func display_wall_jump_effects(_position: Vector2):
 	pass

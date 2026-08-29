@@ -1,5 +1,5 @@
 # Darlyson Sistemas
 
-Volote para a branch ```M̀ain``` para ver o gdd
+Volote para a branch ```Main``` para ver o gdd
 
 > Darlyson

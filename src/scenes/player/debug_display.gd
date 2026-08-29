@@ -12,7 +12,7 @@ func _ready():
 	current_state_label.text = godot_essentials_finite_state_machine.current_state.name
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	actual_velocity_label.text = "Velocity: " + str(Vector2(round(godot_essentials_platformer_movement_component.velocity.x), round(godot_essentials_platformer_movement_component.velocity.y)))
 
 

@@ -11,7 +11,7 @@ func _ready():
 	_update_screen(current_screen)
 	
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	var parent_screen: Vector2 = (PLAYER.global_position / SCREEN_SIZE).floor()
 	if not parent_screen.is_equal_approx(current_screen):
 		_update_screen(parent_screen)
@@ -23,4 +23,3 @@ func _update_screen(new_screen: Vector2):
 
 	
 	PLAYER.get_node("GodotEssentialsPlatformerMovementComponent").reset_dash_queue()
-
