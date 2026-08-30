@@ -1,39 +1,223 @@
-# Mountain climbing 16: about and GDD
+# Mountain Climbing
 
-# Resumo:
+> Um jogo de plataforma 2D sobre escalada, superação e a tentativa de reconstruir a própria vida.
 
-Um homem decide escalar uma montanha para sair de seus vícios.
+**Mountain Climbing** é um projeto desenvolvido pela **Coffe Studio** utilizando **Godot Engine**.
 
-# Lore:
+O projeto combina exploração horizontal, plataforma de precisão e uma ambientação de montanha, com foco em uma experiência simples, desafiadora e baseada em movimentação.
 
-Você esta na pele de um pai de família, Joseph Jomine. Joseph é um usuário de drogas e alcoólatra, isso começou depois de seu casamento com sua esposa: {Nome Esposa}. Ele sempre voltava de bares extremamente bêbado. Quando chegava, sempre havia alguma discussão, e sempre por alguma besteira. Depois de algum tempo, Marta Alvered decide dar um fim nesta situação. Marta decide expulsar Joseph de casa até que ele mudasse.
+---
 
-Depois de algum tempo, você percebe o quão ruim você é, mas você já está completamente corrompido pelas drogas e pelo cerveja. Então você decide ir para uma clinica de reabilitação. Lá ele vê que não seria fácil, como você já havia quase sido repeso, alguns ali já o conheciam.
+## ✦ Sobre o projeto
 
-A grande maioria das pessoas ali não botavam fé em sua recuperação, então, você decide provar para todos ali presentes que você era capaz. Você decide escalar uma montanha, não qualquer uma, mas a maior daquela cidade. Quilômetros de altura, 6 para ser especifico.
+A história acompanha **Joseph Jomine**, um homem que decide enfrentar uma grande montanha como parte de uma jornada pessoal de recuperação e mudança.
 
-Você fala para todos ele que que irá conseguir, que ira provar para todos que ele era capaz. E, acima de tudo, provar seu valor para sua esposa, e filho/s.
+A escalada representa mais do que chegar ao topo: é uma tentativa de provar para si mesmo e para as pessoas ao seu redor que ele ainda é capaz de mudar.
 
-# Sistema de arquivos
+> **A montanha é o desafio. A escalada é a jornada.**
 
-# Arte
+---
 
-A arte do jogo Mountain climbing é uma de pixel arte.
+## Gameplay
 
-## Pixel Arte
+O gameplay é baseado principalmente em **movimentação e escalada**.
 
-![PixelArte1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.Mr8fbkZo9l7MWoGYZZJYewHaEK%3Fpid%3DApi&f=1&ipt=b1b0255d13e4e0c8789a1db46720b2bbbcbd3322f5a3745177faa00b49aff4d6&ipo=images)
+### Movimentação
 
-![PixelArte1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.eIIKpHKUFW16SETPXYhtRwHaEK%3Fpid%3DApi&f=1&ipt=612d6af74c88e79f2f55080ed471af88e3916c14deb5601ed7b0b7e3a80966ee&ipo=images)
+* Andar
+* Correr
+* Pulo variável
+* Dash
+* Movimentação aérea
+* Interação com paredes
 
-# Sistema de gameplay
+### Escalada
 
-Em um jogo, o sistema de gameplay é uma das coisas mais importantes para fazer um bom jogo. o sistema de gameplay é uma das mais importantes.
+Uma das mecânicas centrais do projeto é a utilização de uma **corda** para auxiliar na escalada entre áreas elevadas da montanha.
 
-## como pode ser os sistemas de `moveset` do jogador?
+A intenção é manter o conjunto de movimentos relativamente simples, permitindo que o desafio venha principalmente do ambiente e da execução do jogador.
 
-Como o jogo é sobre escaladas, uma das mecânicas principais é de escalar usando uma corda, que será usada junto do mouse para es escalar entre paredes elevadas.
+---
 
-Quero que o sistema de andar (do jogador) seja simplificada. Apenas: Andar, correr, pular (baixo ou alto) dependendo de quanto tempo você aperta a barra de espaço
+## Sistema de movimentação
 
-> Coffe-Studio ☕️
+O projeto utiliza uma arquitetura baseada em estados para organizar diferentes comportamentos do personagem.
+
+Entre os estados presentes no protótipo estão:
+
+```text
+Ground
+├── Idle
+└── Run
+
+Air
+├── Jump
+└── Fall
+
+Wall
+├── Wall Climb
+└── Wall Interaction
+
+Special
+├── Dash
+└── Bounce
+```
+
+A estrutura foi pensada para facilitar a expansão do sistema sem concentrar toda a lógica do personagem em um único script.
+
+---
+
+## 🧩 Estrutura do projeto
+
+```
+res://
+├── addons/
+│   └── 2d_essentials/
+│
+├── assets/
+│
+├── src/
+│   └── scenes/
+│
+├── .gitattributes
+├── .gitignore
+├── LICENSE.md
+├── README.md
+├── lista.md
+└── project.godot
+```
+
+A organização separa **recursos, entidades, sistemas, mapas, interface e documentação**, permitindo que diferentes partes do projeto sejam desenvolvidas independentemente.
+
+---
+
+## Direção visual
+
+A direção artística do projeto combina diferentes abordagens de arte 2D.
+
+A proposta inclui:
+
+* Pixel art
+* Arte desenhada à mão (ainda não disponível)
+* Elementos de ambientação de montanha
+* Interfaces próprias (não adicionado)
+* Efeitos visuais
+
+A identidade visual ainda está em desenvolvimento e pode sofrer alterações durante a produção.
+
+---
+
+## Tecnologias
+
+* **Godot Engine**
+* **GDScript**
+* **Git**
+* **GitHub**
+
+---
+
+## Documentação
+
+A documentação técnica do projeto está localizada em:
+
+```text
+docs/
+└── developer_doc/
+```
+
+Ela será utilizada para registrar sistemas, decisões técnicas e informações necessárias para manutenção do projeto.
+
+---
+
+## Roadmap
+
+### Gameplay
+
+* [x] Sistema básico de movimentação
+* [x] Pulo
+* [x] Estados de movimento
+* [x] Dash
+* [ ] Sistema completo de escalada
+* [ ] Sistema de corda
+* [ ] Interações com o ambiente
+* [ ] Obstáculos
+* [ ] Sistema de progressão
+
+### Visual
+
+* [ ] Definir direção artística final
+* [ ] Criar sprites finais
+* [ ] Criar ambientes
+* [ ] Criar efeitos visuais
+* [ ] Criar interface final
+
+### Produção
+
+* [ ] Estruturar níveis
+* [ ] Implementar sistemas principais
+* [ ] Criar primeira fase jogável
+* [ ] Testes
+* [ ] Polimento
+* [ ] Build jogável
+
+---
+
+## 👥 Equipe
+
+| Nome     | Função           |
+| -------- | ---------------- |
+| Darlyson | Game Development |
+| Rika     | Desenvolvimento  |
+
+> As funções da equipe ainda podem ser atualizadas conforme a organização do projeto evoluir.
+
+---
+
+## 🧪 Protótipo
+
+O repositório também contém um protótipo baseado em **Alys**, utilizado para experimentar sistemas de plataforma e movimentação.
+
+O protótipo utiliza conceitos como:
+
+* Máquina de estados
+* Movimentação baseada em componentes
+* Jump
+* Dash
+* Wall Climb
+* Bounce
+* Detecção de bordas
+
+Algumas dessas mecânicas servem como referência para o desenvolvimento dos sistemas de **Mountain Climbing**.
+
+---
+
+## 📦 Recursos de terceiros
+
+O projeto utiliza ou referencia recursos e sistemas desenvolvidos por terceiros.
+
+Os créditos e licenças dos recursos utilizados devem ser mantidos conforme suas respectivas licenças.
+
+Entre os recursos atualmente referenciados no projeto estão:
+
+* **2D-Essentials**
+* Alys character
+* Background desert mountains
+* Smoke effects
+
+Consulte as licenças e páginas originais antes de redistribuir ou modificar esses recursos.
+
+---
+
+## Licença
+
+Este projeto possui uma licença definida no repositório.
+
+Consulte [`LICENSE`](LICENSE) para informações sobre uso, modificação e distribuição.
+
+---
+
+## ☕ Coffe Studio
+
+**Coffe Studio** é um estúdio independente focado no desenvolvimento de jogos e experimentação com diferentes áreas de desenvolvimento.
+
+**Mountain Climbing** é um dos projetos principais do estúdio.
