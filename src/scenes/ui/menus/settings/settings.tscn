@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dkpaocaam6f4x"]
+
+[ext_resource type="Script" uid="uid://l3njp8drw1be" path="res://src/scenes/ui/menus/settings/settings_menu.gd" id="1_lkell"]
+
+[node name="Settings" type="CanvasLayer" unique_id=771939703]
+scale = Vector2(0.7, 0.7)
+transform = Transform2D(0.7, 0, 0, 0.7, 0, 0)
+script = ExtResource("1_lkell")
+action_names = Array[String](["jump", "dash", "climb", "pause"])
+action_labels = Array[String](["Pulo", "Dash", "Escalada", "Pause"])
+default_keys = Array[int]([32, 4194325, 69, 4194305])

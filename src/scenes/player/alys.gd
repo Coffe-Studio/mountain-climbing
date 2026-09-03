@@ -8,13 +8,10 @@ class_name Alys extends CharacterBody2D
 @onready var effects: Node2D = $Effects
 @onready var idle: Idle = $GodotEssentialsFiniteStateMachine/Ground/Idle
 
-@export var neve_son : AudioStreamPlayer2D
-
 var is_left_direction: bool = false
 
 func _ready():
 	disable_effects()
-	neve_son.play()
 	animation_player.animation_finished.connect(on_animation_player_finished) 
 
 func _process(_delta):

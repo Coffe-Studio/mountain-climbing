@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menus/main/Main menu.gd" id="1_p0cpe"]
 [ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_34mvd"]
-[ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/ogo/title .png" id="3_p0cpe"]
+[ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="3_p0cpe"]
 [ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="4_fn25p"]
+[ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/scenes/ui/menus/settings/settings.tscn" id="5_34mvd"]
+[ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -34,7 +36,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HBoxContainer2:position")
+tracks/2/path = NodePath("../Buttons:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -46,7 +48,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HBoxContainer2:rotation")
+tracks/3/path = NodePath("../Buttons:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -110,7 +112,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HBoxContainer2:modulate")
+tracks/4/path = NodePath("../Buttons:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -122,7 +124,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HBoxContainer2:position")
+tracks/5/path = NodePath("../Buttons:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -134,7 +136,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HBoxContainer2:rotation")
+tracks/6/path = NodePath("../Buttons:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -210,7 +212,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HBoxContainer2:modulate")
+tracks/4/path = NodePath("../Buttons:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -222,7 +224,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HBoxContainer2:position")
+tracks/5/path = NodePath("../Buttons:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -234,7 +236,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HBoxContainer2:rotation")
+tracks/6/path = NodePath("../Buttons:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -285,7 +287,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HBoxContainer2:position")
+tracks/2/path = NodePath("../Buttons:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -297,7 +299,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HBoxContainer2:rotation")
+tracks/3/path = NodePath("../Buttons:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -333,7 +335,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HBoxContainer2:modulate")
+tracks/6/path = NodePath("../Buttons:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -409,7 +411,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HBoxContainer2:modulate")
+tracks/4/path = NodePath("../Buttons:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -421,7 +423,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HBoxContainer2:position")
+tracks/5/path = NodePath("../Buttons:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -433,7 +435,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HBoxContainer2:rotation")
+tracks/6/path = NodePath("../Buttons:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -464,30 +466,52 @@ _data = {
 &"Settings_out": SubResource("Animation_bsjkl")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(400, 180, 1)
+angle_min = -90.0
+angle_max = 90.0
+spread = 20.0
+gravity = Vector3(0, 20, 0)
+scale_max = 2.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_lt4el"]
 font_size = 8
-outline_size = 1
-outline_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.1882353)
 
 [node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("SondInitial", "animation")]
 script = ExtResource("1_p0cpe")
-SondInitial = NodePath("AudioStreamPlayer2D")
+SondInitial = NodePath("Sonds/AudioStreamPlayer2D")
 animation = NodePath("Camera2D/AnimationPlayer")
 
-[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1434753764]
+[node name="Sonds" type="CanvasGroup" parent="." unique_id=1869077696]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Sonds" unique_id=948266358]
+stream = ExtResource("4_fn25p")
+volume_db = -12.926
+autoplay = true
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="Sonds" unique_id=453826995]
+stream = ExtResource("5_pm78a")
+volume_db = -9.0
+autoplay = true
+bus = &"Music"
+
+[node name="Bg" type="Parallax2D" parent="." unique_id=1434753764]
 scroll_scale = Vector2(0.6, 0.6)
 repeat_size = Vector2(320, 0)
 repeat_times = 2
 
-[node name="BackgrondMenu3" type="Sprite2D" parent="Parallax2D" unique_id=1635631139]
+[node name="BackgrondMenu3" type="Sprite2D" parent="Bg" unique_id=1635631139]
 position = Vector2(162.74998, -94.00001)
 scale = Vector2(0.16953126, 0.17407408)
 texture = ExtResource("2_34mvd")
 flip_v = true
 
-[node name="BackgrondMenu" type="Sprite2D" parent="Parallax2D" unique_id=1422032528]
+[node name="BackgrondMenu" type="Sprite2D" parent="Bg" unique_id=1422032528]
 position = Vector2(162.74998, 88.5)
 scale = Vector2(0.16953126, 0.18611111)
 texture = ExtResource("2_34mvd")
@@ -514,7 +538,16 @@ metadata/_edit_use_anchors_ = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D" unique_id=535712325]
 libraries/ = SubResource("AnimationLibrary_ncxqe")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=325194069]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D" unique_id=2105287038]
+position = Vector2(25.460815, 13.883305)
+amount = 600
+lifetime = 5.0
+preprocess = 5.0
+randomness = 0.5
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_p0cpe")
+
+[node name="Buttons" type="HBoxContainer" parent="." unique_id=325194069]
 offset_top = 168.0
 offset_right = 319.0
 offset_bottom = 190.0
@@ -522,19 +555,19 @@ theme_override_constants/separation = 15
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Play" type="Button" parent="HBoxContainer2" unique_id=1965462441]
+[node name="Play" type="Button" parent="Buttons" unique_id=1965462441]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Play"
 
-[node name="Settings" type="Button" parent="HBoxContainer2" unique_id=312966621]
+[node name="Settings" type="Button" parent="Buttons" unique_id=312966621]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Settings"
 
-[node name="Quit" type="Button" parent="HBoxContainer2" unique_id=1687446670]
+[node name="Quit" type="Button" parent="Buttons" unique_id=1687446670]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 10
@@ -546,20 +579,20 @@ position = Vector2(160.00002, 42.299995)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_p0cpe")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=948266358]
-stream = ExtResource("4_fn25p")
-volume_db = -12.926
-
 [node name="Version" type="Label" parent="." unique_id=1208997594]
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "29/08/2026(0002)"
+text = "03/09/2026(0003)"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="HBoxContainer2/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="HBoxContainer2/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="HBoxContainer2/Quit" to="." method="_on_quit_pressed"]
+[node name="Settings" parent="." unique_id=771939703 node_paths=PackedStringArray("open_button") instance=ExtResource("5_34mvd")]
+open_button = NodePath("../Buttons/Settings")
+panel_color = Color(0.14901961, 0.19215687, 0.2901961, 0.8980392)
+action_labels = Array[String](["Jump", " Dash", "Climb", "Pause"])
+
+[connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Quit" to="." method="_on_quit_pressed"]
