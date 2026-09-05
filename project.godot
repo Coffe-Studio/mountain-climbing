@@ -15,11 +15,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Mountain Clinbing"
-run/main_scene="res://src/scenes/ui/menus/main/Main menu.tscn"
+run/main_scene="uid://b4nlcliq6d44k"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/image="uid://cxwj0jr5cfvlm"
 config/icon="uid://b0tsulaki3ulg"
+
+[audio]
+
+buses/default_bus_layout="uid://b25ksd8liihtd"
 
 [autoload]
 
@@ -37,6 +40,11 @@ window/stretch/mode="canvas_items"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/2d_essentials/plugin.cfg")
+
+[gui]
+
+theme/custom="uid://dt88km6n1hf26"
+theme/custom_font="uid://bw1w4jadivy1g"
 
 [input]
 
@@ -107,3 +115,4 @@ pause={
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 anti_aliasing/quality/msaa_2d=1
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

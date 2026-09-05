@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://cv3v2jh5jtfrm" path="res://src/scenes/player/state_machine/motion/wall/wall_climb.gd" id="18_yoljg"]
 [ext_resource type="Script" uid="uid://dm8twmgh2luh" path="res://src/scenes/player/state_machine/motion/special/neutral.gd" id="19_0hmjx"]
 [ext_resource type="Script" uid="uid://c0n0dlfhqove6" path="res://src/scenes/player/state_machine/motion/special/bounce.gd" id="20_aafqd"]
-[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="21_1ymoh"]
+[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/SFX/dash.wav" id="21_1ymoh"]
 [ext_resource type="Script" uid="uid://ca17x18x4vycf" path="res://src/scenes/player/debug_display.gd" id="21_adfd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2r554"]
@@ -646,14 +646,15 @@ script = ExtResource("19_0hmjx")
 [node name="Bounce" type="Node" parent="GodotEssentialsFiniteStateMachine/Special" unique_id=8236365]
 script = ExtResource("20_aafqd")
 
-[node name="DebugDisplay" type="Control" parent="." unique_id=742619270]
+[node name="DebugDisplay2" type="Control" parent="." unique_id=448301827]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("21_adfd7")
 
-[node name="CurrentState" type="Label" parent="DebugDisplay" unique_id=2016720328]
+[node name="CurrentState" type="Label" parent="DebugDisplay2" unique_id=1190033370]
 layout_mode = 0
 offset_left = -19.0
 offset_top = -37.0
@@ -665,7 +666,7 @@ text = "State"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Actual velocity" type="Label" parent="DebugDisplay" unique_id=1469754362]
+[node name="Actual velocity" type="Label" parent="DebugDisplay2" unique_id=841186095]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = -13.0

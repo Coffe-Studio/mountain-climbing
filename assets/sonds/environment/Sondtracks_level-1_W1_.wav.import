@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://qvfw0kkiyx2s"
-path="res://.godot/imported/Sondtracks_level-1_W1_.wav-e91a734d022b2c5b785ff13d31d2107a.sample"
+path="res://.godot/imported/Sondtracks_level-1_W1_.wav-293da9c79737ed550bc203d998a852fd.sample"
 
 [deps]
 
-source_file="res://assets/sonds/Sondtracks_level-1_W1_.wav"
-dest_files=["res://.godot/imported/Sondtracks_level-1_W1_.wav-e91a734d022b2c5b785ff13d31d2107a.sample"]
+source_file="res://assets/sonds/environment/Sondtracks_level-1_W1_.wav"
+dest_files=["res://.godot/imported/Sondtracks_level-1_W1_.wav-293da9c79737ed550bc203d998a852fd.sample"]
 
 [params]
 

@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/scenes/ui/menus/main/Main menu.gd" id="1_p0cpe"]
 [ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_34mvd"]
 [ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="3_p0cpe"]
-[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/dash.wav" id="4_fn25p"]
+[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/SFX/dash.wav" id="4_fn25p"]
 [ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/scenes/ui/menus/settings/settings.tscn" id="5_34mvd"]
-[ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
+[ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Menus/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -469,9 +469,7 @@ _data = {
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
 lifetime_randomness = 1.0
 emission_shape = 3
-emission_box_extents = Vector3(400, 180, 1)
-angle_min = -90.0
-angle_max = 90.0
+emission_box_extents = Vector3(320, 180, 1)
 spread = 20.0
 gravity = Vector3(0, 20, 0)
 scale_max = 2.0
@@ -540,7 +538,7 @@ libraries/ = SubResource("AnimationLibrary_ncxqe")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D" unique_id=2105287038]
 position = Vector2(25.460815, 13.883305)
-amount = 600
+amount = 1200
 lifetime = 5.0
 preprocess = 5.0
 randomness = 0.5
@@ -583,7 +581,7 @@ texture = ExtResource("3_p0cpe")
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "03/09/2026(0003)"
+text = "03/09/2026(0003,1 )"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -591,6 +589,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Settings" parent="." unique_id=771939703 node_paths=PackedStringArray("open_button") instance=ExtResource("5_34mvd")]
 open_button = NodePath("../Buttons/Settings")
+panel_width = 280.0
 panel_color = Color(0.14901961, 0.19215687, 0.2901961, 0.8980392)
 action_labels = Array[String](["Jump", " Dash", "Climb", "Pause"])
 
