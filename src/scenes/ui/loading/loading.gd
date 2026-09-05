@@ -11,6 +11,7 @@ extends Control
 @export var progress_bar: ProgressBar
 @export var label: Label
 @export var anim: AnimationPlayer
+@export var sprite: AnimatedSprite2D
 
 
 # ==========================================
@@ -35,6 +36,7 @@ var dot_timer := 0.0
 
 func _ready():
 
+	sprite.play("loading_playar")
 	anim.play("loading_in")
 	await anim.animation_finished
 

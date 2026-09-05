@@ -1,5 +1,7 @@
 class_name Jump extends Air
 
+@export var sond: AudioStreamPlayer2D
+
 var jump_dust_effect_scene: PackedScene = preload("res://src/scenes/effects/jump_dust.tscn")
 
 func _enter():
@@ -54,6 +56,7 @@ func jump() -> void:
 
 	if animated_sprite and can_jump:
 		animated_sprite.stop()
+		sond.play()
 		animated_sprite.play("jump")
 		var tween = create_tween()
 		tween.tween_property(animated_sprite, "scale:x", 1.0, 0.4).from(0.85).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_BOUNCE)
