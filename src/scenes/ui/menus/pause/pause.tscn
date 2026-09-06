@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ds7rgth6sp5vk"]
 
 [ext_resource type="Script" uid="uid://bxhprovs5bhs0" path="res://src/scenes/ui/menus/pause/pause.gd" id="1_3cp8b"]
-[ext_resource type="Texture2D" uid="uid://qoyvytj5qbsf" path="res://assets/environment/backgrounds/bg1.png" id="2_3cp8b"]
+[ext_resource type="Texture2D" uid="uid://daf8xgvps0c6y" path="res://assets/environment/backgrounds/bg3.png" id="2_3cp8b"]
 
 [sub_resource type="Animation" id="Animation_3cp8b"]
 length = 0.001
@@ -165,9 +165,8 @@ _data = {
 
 [sub_resource type="LabelSettings" id="LabelSettings_s1ctu"]
 font_size = 23
-outline_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
 shadow_size = 3
-shadow_color = Color(0, 0, 0, 0.5294118)
+shadow_color = Color(0, 0, 0, 0.2784314)
 
 [node name="Pause" type="Control" unique_id=512231310 node_paths=PackedStringArray("anim")]
 process_mode = 3
@@ -179,8 +178,8 @@ anim = NodePath("Sprite2D/AnimationPlayer")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1554510733]
 process_mode = 3
 modulate = Color(1, 1, 1, 0)
-position = Vector2(160, 89.75)
-scale = Vector2(0.5555556, 0.43285373)
+position = Vector2(160, 89.49999)
+scale = Vector2(0.5555556, 0.55246913)
 texture = ExtResource("2_3cp8b")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" unique_id=714139003]
@@ -203,10 +202,6 @@ text = "Back"
 layout_mode = 2
 text = "Quit
 "
-
-[node name="Settings" type="Button" parent="HBoxContainer" unique_id=1374791596]
-layout_mode = 2
-text = "Settings"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=785059676]
 layout_mode = 0

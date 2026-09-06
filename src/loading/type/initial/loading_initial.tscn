@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://b4nlcliq6d44k"]
 
-[ext_resource type="Script" uid="uid://cnl2tdy8mk4hi" path="res://src/scenes/ui/loading/loading.gd" id="1_l83et"]
+[ext_resource type="Script" uid="uid://cnl2tdy8mk4hi" path="res://src/loading/loading.gd" id="1_l83et"]
 [ext_resource type="FontFile" uid="uid://bw1w4jadivy1g" path="res://assets/fonts/Mountain_Climbing.ttf" id="2_maq8f"]
 [ext_resource type="Texture2D" uid="uid://boewo46r0oqvg" path="res://assets/character_animations/WalkR_strip8.png" id="3_qxcrd"]
 [ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="4_dm8fx"]
