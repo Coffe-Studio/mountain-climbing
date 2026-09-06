@@ -137,8 +137,6 @@ Ela será utilizada para registrar sistemas, decisões técnicas e informações
 * [x] Pulo
 * [x] Estados de movimento
 * [x] Dash
-* [ ] Sistema completo de escalada
-* [ ] Sistema de corda
 * [ ] Interações com o ambiente
 * [ ] Obstáculos
 * [ ] Sistema de progressão
@@ -159,17 +157,6 @@ Ela será utilizada para registrar sistemas, decisões técnicas e informações
 * [ ] Testes
 * [ ] Polimento
 * [ ] Build jogável
-
----
-
-## 👥 Equipe
-
-| Nome     | Função           |
-| -------- | ---------------- |
-| Darlyson | Game Development |
-| Rika     | Desenvolvimento  |
-
-> As funções da equipe ainda podem ser atualizadas conforme a organização do projeto evoluir.
 
 ---
 
