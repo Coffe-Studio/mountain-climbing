@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://n5ujk4qve1aq"]
+
+[ext_resource type="Script" uid="uid://dcqt180i0m2od" path="res://src/ui/hud/hud.gd" id="1_jobw0"]
+
+[node name="HUD" type="Control" unique_id=380256410 node_paths=PackedStringArray("button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jobw0")
+button = NodePath("Button")
+
+[node name="Button" type="Button" parent="." unique_id=1601758148]
+layout_mode = 0
+offset_left = 272.0
+offset_right = 320.0
+offset_bottom = 29.0
+text = "Pause"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -11,7 +11,7 @@ func _ready():
 func _on_play_pressed():
 	animation.play("Play_out")
 	await animation.animation_finished
-	get_tree().change_scene_to_file("res://src/loading/type/game_tutorial/loading_game_tutorial.tscn")
+	get_tree().change_scene_to_file("res://src/loading/type/gameplay/tutorial/loading_tutorial.tscn")
 
 func _on_quit_pressed():
 	$Settings.visible = false

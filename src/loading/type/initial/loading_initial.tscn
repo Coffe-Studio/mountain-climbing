@@ -1,15 +1,16 @@
 [gd_scene format=4 uid="uid://b4nlcliq6d44k"]
 
-[ext_resource type="Script" uid="uid://cnl2tdy8mk4hi" path="res://src/loading/loading.gd" id="1_l83et"]
-[ext_resource type="FontFile" uid="uid://bw1w4jadivy1g" path="res://assets/fonts/Mountain_Climbing.ttf" id="2_maq8f"]
-[ext_resource type="Texture2D" uid="uid://boewo46r0oqvg" path="res://assets/character_animations/WalkR_strip8.png" id="3_qxcrd"]
-[ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="4_dm8fx"]
-[ext_resource type="Texture2D" uid="uid://qqbchvllsyu8" path="res://assets/tilesets/8x8_nature.png" id="5_rrv5v"]
-[ext_resource type="Texture2D" uid="uid://bgdw7gy5w7uwg" path="res://assets/tilesets/titleset-ver2.png" id="6_rae0b"]
-[ext_resource type="Texture2D" uid="uid://c8k86suo17qvm" path="res://assets/tilesets/titleset-ver1.png" id="7_oprk0"]
+[ext_resource type="Script" uid="uid://ccnhco2rpjama" path="res://src/loading/type/initial/loading.gd" id="1_470o3"]
+[ext_resource type="PackedScene" uid="uid://bha0ajeho2b8q" path="res://src/ui/menus/main/Main menu.tscn" id="2_clshw"]
+[ext_resource type="FontFile" uid="uid://bw1w4jadivy1g" path="res://assets/fonts/Mountain_Climbing.ttf" id="3_q6mxh"]
+[ext_resource type="Texture2D" uid="uid://boewo46r0oqvg" path="res://assets/character_animations/WalkR_strip8.png" id="4_lbhpy"]
+[ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="5_xn1y2"]
+[ext_resource type="Texture2D" uid="uid://qqbchvllsyu8" path="res://assets/tilesets/8x8_nature.png" id="6_37raj"]
+[ext_resource type="Texture2D" uid="uid://bgdw7gy5w7uwg" path="res://assets/tilesets/titleset-ver2.png" id="7_nubbj"]
+[ext_resource type="Texture2D" uid="uid://c8k86suo17qvm" path="res://assets/tilesets/titleset-ver1.png" id="8_lwuv1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_28l04"]
-font = ExtResource("2_maq8f")
+font = ExtResource("3_q6mxh")
 font_size = 21
 outline_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
 shadow_size = 2
@@ -68,35 +69,35 @@ _data = {
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rjln0"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oq3ku"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t08u7"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j7vod"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kmj1h"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ngxmw"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c0sq"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eevjf"]
-atlas = ExtResource("3_qxcrd")
+atlas = ExtResource("4_lbhpy")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s1ctu"]
@@ -137,7 +138,7 @@ animations = [{
 }]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eevjf"]
-texture = ExtResource("4_dm8fx")
+texture = ExtResource("5_xn1y2")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
 0:1/0 = 0
@@ -461,7 +462,7 @@ texture_region_size = Vector2i(8, 8)
 5:22/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xg8mr"]
-texture = ExtResource("5_rrv5v")
+texture = ExtResource("6_37raj")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
 1:0/0 = 0
@@ -849,7 +850,7 @@ texture_region_size = Vector2i(8, 8)
 24:14/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2ar5"]
-texture = ExtResource("6_rae0b")
+texture = ExtResource("7_nubbj")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -1335,7 +1336,7 @@ texture = ExtResource("6_rae0b")
 28:21/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x6f5k"]
-texture = ExtResource("7_oprk0")
+texture = ExtResource("8_lwuv1")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, 4, -4, -4, 4, -4, 4, 4)
@@ -2978,8 +2979,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_l83et")
-scene_to_load = "uid://bha0ajeho2b8q"
+script = ExtResource("1_470o3")
+scene_to_load = ExtResource("2_clshw")
 progress_bar = NodePath("VBoxContainer/ProgressBar")
 label = NodePath("VBoxContainer/Label")
 anim = NodePath("AnimationPlayer")

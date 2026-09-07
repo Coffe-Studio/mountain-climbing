@@ -10,7 +10,10 @@ static var instance = null
 @export var open_button: Button
 
 @export_group("Visual")
-@export var panel_width: float = 270.0
+@export_range(260.0, 1200.0, 1.0) var panel_width: float = 320.0
+@export_range(0.50, 1.00, 0.01) var content_width_scale: float = 0.94
+@export_range(0.0, 40.0, 1.0) var scrollbar_padding: float = 8.0
+@export_range(0.50, 1.50, 0.01) var ui_scale: float = 1.0
 @export var panel_color: Color = Color(0.12, 0.11, 0.16, 0.96)
 @export var sidebar_color: Color = Color(0.08, 0.075, 0.11, 1.0)
 @export var accent_color: Color = Color(0.48, 0.28, 1.0, 1.0)
@@ -76,6 +79,8 @@ var waiting_action: String = ""
 var waiting_button: Button = null
 
 var key_buttons: Dictionary = {}
+var gamepad_buttons: Dictionary = {}
+var waiting_input_type: String = ""
 
 var opened: bool = false
 var tween: Tween = null
@@ -109,21 +114,53 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# Remapeamento de teclado
 	if event is InputEventKey:
 		var key_event: InputEventKey = event as InputEventKey
 
 		if key_event.pressed and !key_event.echo:
-
 			if waiting_action != "":
-				remap_action(waiting_action, key_event.keycode)
-				waiting_action = ""
-				waiting_button = null
-				get_viewport().set_input_as_handled()
-				return
+				if waiting_input_type == "keyboard":
+					remap_keyboard_action(waiting_action, key_event.keycode)
+					waiting_action = ""
+					waiting_input_type = ""
+					waiting_button = null
+					get_viewport().set_input_as_handled()
+					return
 
 			if key_event.keycode == toggle_key:
 				toggle_settings()
 				get_viewport().set_input_as_handled()
+				return
+
+	# Remapeamento de gamepad - botão
+	if event is InputEventJoypadButton:
+		var joy_button: InputEventJoypadButton = event as InputEventJoypadButton
+
+		if joy_button.pressed and waiting_action != "" and waiting_input_type == "gamepad":
+			remap_gamepad_button(waiting_action, joy_button.button_index)
+			waiting_action = ""
+			waiting_input_type = ""
+			waiting_button = null
+			get_viewport().set_input_as_handled()
+			return
+
+	# Remapeamento de gamepad - eixo analógico
+	if event is InputEventJoypadMotion:
+		var joy_motion: InputEventJoypadMotion = event as InputEventJoypadMotion
+
+		if waiting_action != "" and waiting_input_type == "gamepad":
+			if abs(joy_motion.axis_value) >= 0.7:
+				remap_gamepad_axis(
+					waiting_action,
+					joy_motion.axis,
+					joy_motion.axis_value
+				)
+				waiting_action = ""
+				waiting_input_type = ""
+				waiting_button = null
+				get_viewport().set_input_as_handled()
+				return
 
 
 # UI
@@ -141,6 +178,7 @@ func build_ui() -> void:
 	root_panel.offset_top = 0.0
 	root_panel.offset_right = panel_width
 	root_panel.offset_bottom = 0.0
+	root_panel.scale = Vector2(ui_scale, ui_scale)
 
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 
@@ -184,14 +222,23 @@ func build_ui() -> void:
 
 	main.add_child(scroll_container)
 
+	# Reserva configurável para a barra de rolagem e limite de largura.
+	# Isso evita que o conteúdo ultrapasse visualmente o viewport do ScrollContainer.
+	var content_margin: MarginContainer = MarginContainer.new()
+	content_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content_margin.add_theme_constant_override("margin_left", 0)
+	content_margin.add_theme_constant_override("margin_top", 0)
+	content_margin.add_theme_constant_override("margin_right", int(scrollbar_padding))
+	content_margin.add_theme_constant_override("margin_bottom", 0)
+	scroll_container.add_child(content_margin)
+
 	content = VBoxContainer.new()
-
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.custom_minimum_size.x = (68.0 + 72.0 + 72.0 + 8.0) * content_width_scale
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
-
 	content.add_theme_constant_override("separation", 3)
-
-	scroll_container.add_child(content)
+	content_margin.add_child(content)
 
 	build_sidebar()
 	show_general_page()
@@ -547,24 +594,50 @@ func _apply_texture_filter_to_node(node: Node) -> void:
 func show_controls_page() -> void:
 	clear_container(content)
 	key_buttons.clear()
+	gamepad_buttons.clear()
 
 	content.add_child(create_title("Controls"))
-	content.add_child(create_subtitle("Remap key bindings"))
+	content.add_child(create_subtitle("Keyboard / Gamepad"))
 
 	var default_btn: Button = Button.new()
-
 	default_btn.text = "Reset Default"
 	default_btn.custom_minimum_size.y = 18
+	default_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	default_btn.add_theme_font_size_override("font_size", 9)
-
 	default_btn.pressed.connect(reset_controls_to_default)
-
 	content.add_child(default_btn)
 
 	content.add_child(create_separator())
 
-	for i in action_names.size():
+	# Grid fixo para manter as três colunas alinhadas e impedir que
+	# a largura do conteúdo varie entre cabeçalho e linhas.
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.custom_minimum_size.x = 0.0
+	grid.add_theme_constant_override("h_separation", int(4.0 * content_width_scale))
+	grid.add_theme_constant_override("v_separation", 3)
+	content.add_child(grid)
 
+	var header_action: Label = Label.new()
+	header_action.text = "Action"
+	header_action.custom_minimum_size.x = 68.0 * content_width_scale
+	header_action.add_theme_font_size_override("font_size", 9)
+	grid.add_child(header_action)
+
+	var header_keyboard: Label = Label.new()
+	header_keyboard.text = "Keyboard"
+	header_keyboard.custom_minimum_size.x = 72.0 * content_width_scale
+	header_keyboard.add_theme_font_size_override("font_size", 9)
+	grid.add_child(header_keyboard)
+
+	var header_gamepad: Label = Label.new()
+	header_gamepad.text = "Gamepad"
+	header_gamepad.custom_minimum_size.x = 72.0 * content_width_scale
+	header_gamepad.add_theme_font_size_override("font_size", 9)
+	grid.add_child(header_gamepad)
+
+	for i in action_names.size():
 		var action: String = action_names[i]
 
 		var label_text: String = (
@@ -573,45 +646,47 @@ func show_controls_page() -> void:
 			else action
 		)
 
-		var row: HBoxContainer = HBoxContainer.new()
-
-		content.add_child(row)
-
 		var label: Label = Label.new()
-
 		label.text = label_text
+		label.custom_minimum_size.x = 68.0 * content_width_scale
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_size_override("font_size", 9)
-		label.custom_minimum_size.x = 80
+		grid.add_child(label)
 
-		row.add_child(label)
-
-		var button: Button = Button.new()
-
-		button.text = get_action_key_text(action)
-
-		button.custom_minimum_size.x = 75
-		button.custom_minimum_size.y = 18
-
-		button.add_theme_font_size_override("font_size", 9)
-
-		button.pressed.connect(
+		# Teclado
+		var key_button: Button = Button.new()
+		key_button.text = get_action_key_text(action)
+		key_button.custom_minimum_size.x = 72.0 * content_width_scale
+		key_button.custom_minimum_size.y = 18
+		key_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		key_button.add_theme_font_size_override("font_size", 9)
+		key_button.pressed.connect(
 			func():
-				start_remap(action, button)
+				start_keyboard_remap(action, key_button)
 		)
+		grid.add_child(key_button)
+		key_buttons[action] = key_button
 
-		row.add_child(button)
-
-		key_buttons[action] = button
+		# Gamepad
+		var pad_button: Button = Button.new()
+		pad_button.text = get_action_gamepad_text(action)
+		pad_button.custom_minimum_size.x = 72.0 * content_width_scale
+		pad_button.custom_minimum_size.y = 18
+		pad_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		pad_button.add_theme_font_size_override("font_size", 9)
+		pad_button.pressed.connect(
+			func():
+				start_gamepad_remap(action, pad_button)
+		)
+		grid.add_child(pad_button)
+		gamepad_buttons[action] = pad_button
 
 	var apply_btn: Button = Button.new()
-
 	apply_btn.text = "Apply"
 	apply_btn.custom_minimum_size.y = 20
-
+	apply_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	apply_btn.add_theme_font_size_override("font_size", 10)
-
 	apply_btn.pressed.connect(save_settings)
-
 	content.add_child(apply_btn)
 
 
@@ -865,93 +940,197 @@ func reset_audio_to_default() -> void:
 # ============================================================
 
 func create_default_input_actions() -> void:
-
 	for i in action_names.size():
-
 		var action: String = action_names[i]
 
 		if !InputMap.has_action(action):
 			InputMap.add_action(action)
 
-		if (
-			InputMap.action_get_events(action).is_empty()
-			and i < default_keys.size()
-		):
-
+		if InputMap.action_get_events(action).is_empty() and i < default_keys.size():
 			var ev: InputEventKey = InputEventKey.new()
-
 			ev.keycode = default_keys[i]
-
-			InputMap.action_add_event(
-				action,
-				ev
-			)
+			InputMap.action_add_event(action, ev)
 
 
-func start_remap(
-	action: String,
-	button: Button
-) -> void:
-
+func start_keyboard_remap(action: String, button: Button) -> void:
 	waiting_action = action
+	waiting_input_type = "keyboard"
 	waiting_button = button
-
 	button.text = "Press key..."
 
 
-func remap_action(
-	action: String,
-	keycode: Key
-) -> void:
+func start_gamepad_remap(action: String, button: Button) -> void:
+	waiting_action = action
+	waiting_input_type = "gamepad"
+	waiting_button = button
+	button.text = "Press button..."
 
-	InputMap.action_erase_events(action)
+
+func remap_keyboard_action(action: String, keycode: Key) -> void:
+	if !InputMap.has_action(action):
+		return
+
+	# Remove somente eventos de teclado.
+	for event in InputMap.action_get_events(action):
+		if event is InputEventKey:
+			InputMap.action_erase_event(action, event)
 
 	var ev: InputEventKey = InputEventKey.new()
-
 	ev.keycode = keycode
+	InputMap.action_add_event(action, ev)
 
-	InputMap.action_add_event(
-		action,
-		ev
-	)
+	if key_buttons.has(action) and key_buttons[action] != null:
+		key_buttons[action].text = OS.get_keycode_string(keycode)
 
-	if (
-		key_buttons.has(action)
-		and key_buttons[action] != null
-	):
+	save_settings()
 
-		key_buttons[action].text = OS.get_keycode_string(
-			keycode
-		)
+
+func remap_gamepad_button(action: String, button_index: JoyButton) -> void:
+	if !InputMap.has_action(action):
+		return
+
+	# Remove somente eventos de gamepad.
+	for event in InputMap.action_get_events(action):
+		if event is InputEventJoypadButton:
+			InputMap.action_erase_event(action, event)
+
+	var ev: InputEventJoypadButton = InputEventJoypadButton.new()
+	ev.button_index = button_index
+	ev.device = -1
+	InputMap.action_add_event(action, ev)
+
+	if gamepad_buttons.has(action) and gamepad_buttons[action] != null:
+		gamepad_buttons[action].text = get_joy_button_name(button_index)
+
+	save_settings()
+
+
+func remap_gamepad_axis(
+	action: String,
+	axis: JoyAxis,
+	axis_value: float
+) -> void:
+	if !InputMap.has_action(action):
+		return
+
+	for event in InputMap.action_get_events(action):
+		if event is InputEventJoypadMotion:
+			InputMap.action_erase_event(action, event)
+
+	var ev: InputEventJoypadMotion = InputEventJoypadMotion.new()
+	ev.axis = axis
+	ev.axis_value = 1.0 if axis_value > 0.0 else -1.0
+	ev.device = -1
+	InputMap.action_add_event(action, ev)
+
+	if gamepad_buttons.has(action) and gamepad_buttons[action] != null:
+		gamepad_buttons[action].text = get_joy_axis_name(axis, axis_value)
 
 	save_settings()
 
 
 func reset_controls_to_default() -> void:
-
 	for i in action_names.size():
-
 		if i < default_keys.size():
-
-			remap_action(
+			remap_keyboard_action(
 				action_names[i],
 				default_keys[i]
 			)
+
+			# Remove gamepad bindings ao restaurar padrões.
+			var action: String = action_names[i]
+			if InputMap.has_action(action):
+				for event in InputMap.action_get_events(action):
+					if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+						InputMap.action_erase_event(action, event)
+
+			if gamepad_buttons.has(action) and gamepad_buttons[action] != null:
+				gamepad_buttons[action].text = "None"
 
 	save_settings()
 
 
 func get_action_key_text(action: String) -> String:
-
 	for event in InputMap.action_get_events(action):
-
 		if event is InputEventKey:
-
 			return OS.get_keycode_string(
 				(event as InputEventKey).keycode
 			)
 
 	return "None"
+
+
+func get_action_gamepad_text(action: String) -> String:
+	for event in InputMap.action_get_events(action):
+		if event is InputEventJoypadButton:
+			return get_joy_button_name(
+				(event as InputEventJoypadButton).button_index
+			)
+
+		if event is InputEventJoypadMotion:
+			var motion: InputEventJoypadMotion = event as InputEventJoypadMotion
+			return get_joy_axis_name(
+				motion.axis,
+				motion.axis_value
+			)
+
+	return "None"
+
+
+func get_joy_button_name(button: JoyButton) -> String:
+	match button:
+		JOY_BUTTON_A:
+			return "A"
+		JOY_BUTTON_B:
+			return "B"
+		JOY_BUTTON_X:
+			return "X"
+		JOY_BUTTON_Y:
+			return "Y"
+		JOY_BUTTON_BACK:
+			return "Back"
+		JOY_BUTTON_GUIDE:
+			return "Guide"
+		JOY_BUTTON_START:
+			return "Start"
+		JOY_BUTTON_LEFT_STICK:
+			return "L3"
+		JOY_BUTTON_RIGHT_STICK:
+			return "R3"
+		JOY_BUTTON_LEFT_SHOULDER:
+			return "LB"
+		JOY_BUTTON_RIGHT_SHOULDER:
+			return "RB"
+		JOY_BUTTON_DPAD_UP:
+			return "D-Up"
+		JOY_BUTTON_DPAD_DOWN:
+			return "D-Down"
+		JOY_BUTTON_DPAD_LEFT:
+			return "D-Left"
+		JOY_BUTTON_DPAD_RIGHT:
+			return "D-Right"
+		_:
+			return "Button " + str(int(button))
+
+
+func get_joy_axis_name(axis: JoyAxis, value: float) -> String:
+	var direction := "+" if value > 0.0 else "-"
+
+	match axis:
+		JOY_AXIS_LEFT_X:
+			return "Left X" + direction
+		JOY_AXIS_LEFT_Y:
+			return "Left Y" + direction
+		JOY_AXIS_RIGHT_X:
+			return "Right X" + direction
+		JOY_AXIS_RIGHT_Y:
+			return "Right Y" + direction
+		JOY_AXIS_TRIGGER_LEFT:
+			return "LT"
+		JOY_AXIS_TRIGGER_RIGHT:
+			return "RT"
+		_:
+			return "Axis " + str(int(axis)) + direction
 
 
 # ============================================================
@@ -1002,21 +1181,40 @@ func save_settings() -> void:
 
 	# Controls
 	for action_variant in action_names:
-
 		var action: String = str(action_variant)
 
+		# Keyboard
 		for event in InputMap.action_get_events(action):
-
 			if event is InputEventKey:
-
 				config.set_value(
 					"keys",
 					action,
-					int(
-						(event as InputEventKey).keycode
-					)
+					int((event as InputEventKey).keycode)
 				)
+				break
 
+		# Gamepad button
+		for event in InputMap.action_get_events(action):
+			if event is InputEventJoypadButton:
+				config.set_value(
+					"gamepad_buttons",
+					action,
+					int((event as InputEventJoypadButton).button_index)
+				)
+				break
+
+		# Gamepad axis
+		for event in InputMap.action_get_events(action):
+			if event is InputEventJoypadMotion:
+				var motion: InputEventJoypadMotion = event as InputEventJoypadMotion
+				config.set_value(
+					"gamepad_axes",
+					action,
+					{
+						"axis": int(motion.axis),
+						"value": float(motion.axis_value)
+					}
+				)
 				break
 
 	config.save(SAVE_PATH)
@@ -1127,32 +1325,43 @@ func load_settings() -> void:
 		return
 
 	for action_variant in action_names:
-
 		var action: String = str(action_variant)
 
-		if config.has_section_key(
-			"keys",
-			action
-		):
+		if !InputMap.has_action(action):
+			InputMap.add_action(action)
 
-			var keycode: Key = int(
-				config.get_value(
-					"keys",
-					action
-				)
-			)
+		# Remove somente bindings salvos anteriormente para poder reconstruir.
+		for event in InputMap.action_get_events(action):
+			if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
+				InputMap.action_erase_event(action, event)
 
-			InputMap.action_erase_events(
-				action
-			)
+		# Keyboard
+		if config.has_section_key("keys", action):
+			var keycode: Key = int(config.get_value("keys", action)) as Key
+			var key_event: InputEventKey = InputEventKey.new()
+			key_event.keycode = keycode
+			InputMap.action_add_event(action, key_event)
 
-			var ev: InputEventKey = InputEventKey.new()
-			ev.keycode = keycode
+		# Gamepad button
+		if config.has_section_key("gamepad_buttons", action):
+			var button_index: JoyButton = int(
+				config.get_value("gamepad_buttons", action)
+			) as JoyButton
+			var pad_event: InputEventJoypadButton = InputEventJoypadButton.new()
+			pad_event.button_index = button_index
+			pad_event.device = -1
+			InputMap.action_add_event(action, pad_event)
 
-			InputMap.action_add_event(
-				action,
-				ev
-			)
+		# Gamepad axis
+		if config.has_section_key("gamepad_axes", action):
+			var axis_data = config.get_value("gamepad_axes", action)
+
+			if axis_data is Dictionary:
+				var motion: InputEventJoypadMotion = InputEventJoypadMotion.new()
+				motion.axis = int(axis_data.get("axis", 0)) as JoyAxis
+				motion.axis_value = float(axis_data.get("value", 1.0))
+				motion.device = -1
+				InputMap.action_add_event(action, motion)
 
 
 # ============================================================
@@ -1217,7 +1426,7 @@ func open_settings() -> void:
 	if tween:
 		tween.kill()
 
-	root_panel.position.x = -panel_width
+	root_panel.position.x = -panel_width * ui_scale
 
 	tween = create_tween()
 
@@ -1256,7 +1465,7 @@ func close_settings() -> void:
 	tween.tween_property(
 		root_panel,
 		"position:x",
-		-panel_width,
+		-panel_width * ui_scale,
 		animation_time
 	)
 
@@ -1280,7 +1489,7 @@ func close_settings_instant() -> void:
 
 	root_panel.visible = false
 
-	root_panel.position.x = -panel_width
+	root_panel.position.x = -panel_width * ui_scale
 
 
 func toggle_settings() -> void:

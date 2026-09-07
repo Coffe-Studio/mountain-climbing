@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://4121pag2di7o"]
 
+[ext_resource type="Script" uid="uid://cf0c4ocdbvs53" path="res://src/intro/intro.gd" id="1_0tdaw"]
+
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_s1ctu"]
 
 [node name="Intro" type="Control" unique_id=565621894]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_0tdaw")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=315245497]
 layout_mode = 0
@@ -12,3 +15,5 @@ offset_right = 320.0
 offset_bottom = 180.0
 stream = SubResource("VideoStreamTheora_s1ctu")
 metadata/_edit_use_anchors_ = true
+
+[connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]
