@@ -153,7 +153,7 @@ Ela será utilizada para registrar sistemas, decisões técnicas e informações
 
 * [ ] Estruturar níveis
 * [ ] Implementar sistemas principais
-* [ ] Criar primeira fase jogável
+* [x] Criar primeira fase jogável
 * [ ] Testes
 * [ ] Polimento
 * [ ] Build jogável
