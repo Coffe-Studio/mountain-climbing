@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://4121pag2di7o"]
 
 [ext_resource type="Script" uid="uid://cf0c4ocdbvs53" path="res://src/intro/intro.gd" id="1_0tdaw"]
-
-[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_s1ctu"]
+[ext_resource type="VideoStream" uid="uid://def5cmiow8yel" path="res://assets/cutcines/Novo-projeto-6-_6691D9D_.ogv" id="2_txmmr"]
 
 [node name="Intro" type="Control" unique_id=565621894]
 layout_mode = 3
@@ -13,7 +12,10 @@ script = ExtResource("1_0tdaw")
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 180.0
-stream = SubResource("VideoStreamTheora_s1ctu")
+stream = ExtResource("2_txmmr")
+autoplay = true
+expand = true
+bus = &"Music"
 metadata/_edit_use_anchors_ = true
 
 [connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]

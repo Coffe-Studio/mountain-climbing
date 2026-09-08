@@ -88,6 +88,25 @@ var tween: Tween = null
 var debug_enabled: bool = false
 
 # Graphics
+# Os valores abaixo aparecem no Inspector e definem os padrões do jogo.
+@export_group("Graphics Defaults")
+@export_enum("Disabled:0", "Enabled:1", "Adaptive:2")
+var default_vsync_mode: int = 1
+
+@export_enum("Disabled:0", "2x MSAA:1", "4x MSAA:2", "8x MSAA:3")
+var default_msaa_2d: int = 0
+
+@export var default_texture_filter_nearest: bool = false
+
+# Mostra ou oculta a opção Pixel Snap no menu de configurações.
+@export var show_pixel_snap_option: bool = true
+
+# Define o estado padrão do Pixel Snap quando o usuário restaura os gráficos.
+@export var default_pixel_snap_enabled: bool = false
+
+@export_enum("30 FPS:30", "60 FPS:60", "120 FPS:120", "144 FPS:144", "240 FPS:240", "Unlimited:0")
+var default_fps_limit: int = 60
+
 var vsync_mode: int = 1
 var msaa_2d: int = 0
 var texture_filter_nearest: bool = false
@@ -100,8 +119,11 @@ func _ready() -> void:
 	layer = 999
 
 	create_default_input_actions()
+	set_graphics_to_inspector_defaults()
 	build_ui()
 	load_settings()
+	# Rebuild the visible page so the controls reflect saved values.
+	show_general_page()
 	apply_audio_settings()
 
 	if open_button != null:
@@ -334,15 +356,16 @@ func show_general_page() -> void:
 	filter_button.item_selected.connect(_on_filtering_selected)
 	content.add_child(filter_row)
 
-	# Pixel Snap
-	var pixel_row: HBoxContainer = create_option_row(
-		"Pixel Snap",
-		["Disabled", "Enabled"]
-	)
-	var pixel_button: OptionButton = pixel_row.get_node("OptionButton")
-	pixel_button.select(get_pixel_snap_index())
-	pixel_button.item_selected.connect(_on_pixel_snap_selected)
-	content.add_child(pixel_row)
+	# Pixel Snap (opcional)
+	if show_pixel_snap_option:
+		var pixel_row: HBoxContainer = create_option_row(
+			"Pixel Snap",
+			["Disabled", "Enabled"]
+		)
+		var pixel_button: OptionButton = pixel_row.get_node("OptionButton")
+		pixel_button.select(get_pixel_snap_index())
+		pixel_button.item_selected.connect(_on_pixel_snap_selected)
+		content.add_child(pixel_row)
 
 	# FPS Limit
 	var fps_row: HBoxContainer = create_option_row(
@@ -368,13 +391,20 @@ func show_general_page() -> void:
 
 	option_button = debug_row.get_node("OptionButton")
 	option_button.select(1 if debug_enabled else 0)
-
+	option_button.item_selected.connect(_on_debug_selected)
 
 	content.add_child(debug_row)
 
 	# --------------------------------------------------------
-	# APPLY
+	# RESET / APPLY
 	# --------------------------------------------------------
+
+	var reset_graphics_btn: Button = Button.new()
+	reset_graphics_btn.text = "Reset Graphics Default"
+	reset_graphics_btn.custom_minimum_size.y = 20
+	reset_graphics_btn.add_theme_font_size_override("font_size", 10)
+	reset_graphics_btn.pressed.connect(reset_graphics_to_default)
+	content.add_child(reset_graphics_btn)
 
 	var apply_btn: Button = Button.new()
 	apply_btn.text = "Apply Changes"
@@ -382,6 +412,18 @@ func show_general_page() -> void:
 	apply_btn.add_theme_font_size_override("font_size", 10)
 	apply_btn.pressed.connect(save_settings)
 	content.add_child(apply_btn)
+
+
+func _on_debug_selected(index: int) -> void:
+	debug_enabled = index == 1
+	apply_debug_display()
+	save_settings()
+
+
+func apply_debug_display() -> void:
+	# O menu apenas armazena o estado de Debug.
+	# O overlay específico do projeto pode ler `debug_enabled`.
+	pass
 
 
 func create_option_row(label_text: String, options: Array[String]) -> HBoxContainer:
@@ -413,105 +455,68 @@ func create_option_row(label_text: String, options: Array[String]) -> HBoxContai
 # GRAPHICS
 # ============================================================
 
-func get_vsync_index() -> int:
-	var mode: DisplayServer.VSyncMode = DisplayServer.window_get_vsync_mode()
+func set_graphics_to_inspector_defaults() -> void:
+	vsync_mode = clampi(default_vsync_mode, 0, 2)
+	msaa_2d = clampi(default_msaa_2d, 0, 3)
+	texture_filter_nearest = default_texture_filter_nearest
+	pixel_snap_enabled = default_pixel_snap_enabled
+	fps_limit = default_fps_limit
 
-	match mode:
-		DisplayServer.VSYNC_DISABLED:
-			return 0
-		DisplayServer.VSYNC_ENABLED:
-			return 1
-		DisplayServer.VSYNC_ADAPTIVE:
-			return 2
-		_:
-			return 1
+	if fps_limit != 0 and fps_limit != 30 and fps_limit != 60 and fps_limit != 120 and fps_limit != 144 and fps_limit != 240:
+		fps_limit = 60
+
+
+func reset_graphics_to_default() -> void:
+	set_graphics_to_inspector_defaults()
+	apply_graphics_settings()
+	save_settings()
+
+	# Reconstrói a página para mostrar imediatamente os padrões do Inspector.
+	show_general_page()
+
+
+func get_vsync_index() -> int:
+	return clampi(vsync_mode, 0, 2)
 
 
 func _on_vsync_selected(index: int) -> void:
-	match index:
-		0:
-			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-		1:
-			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
-		2:
-			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
-
+	vsync_mode = clampi(index, 0, 2)
+	apply_vsync()
 	save_settings()
 
 
 func get_msaa_index() -> int:
-	var value: int = int(
-		ProjectSettings.get_setting(
-			"rendering/anti_aliasing/quality/msaa_2d",
-			0
-		)
-	)
-
-	match value:
-		2:
-			return 1
-		4:
-			return 2
-		8:
-			return 3
-		_:
-			return 0
+	return clampi(msaa_2d, 0, 3)
 
 
 func _on_msaa_selected(index: int) -> void:
-	var values: Array[int] = [0, 2, 4, 8]
-	var msaa_value: int = values[index]
-
-	ProjectSettings.set_setting(
-		"rendering/anti_aliasing/quality/msaa_2d",
-		msaa_value
-	)
-
+	msaa_2d = clampi(index, 0, 3)
+	apply_msaa()
 	save_settings()
 
 
 func get_filtering_index() -> int:
-	var nearest: bool = bool(
-		ProjectSettings.get_setting(
-			"rendering/textures/default_filters/use_nearest_mipmap_filter",
-			false
-		)
-	)
-
-	return 0 if nearest else 1
+	return 0 if texture_filter_nearest else 1
 
 
 func _on_filtering_selected(index: int) -> void:
-	ProjectSettings.set_setting(
-		"rendering/textures/default_filters/use_nearest_mipmap_filter",
-		index == 0
-	)
-
+	texture_filter_nearest = index == 0
+	apply_texture_filtering()
 	save_settings()
 
 
 func get_pixel_snap_index() -> int:
-	var enabled: bool = bool(
-		ProjectSettings.get_setting(
-			"rendering/2d/snap/snap_2d_transforms_to_pixel",
-			false
-		)
-	)
-
-	return 1 if enabled else 0
+	return 1 if pixel_snap_enabled else 0
 
 
 func _on_pixel_snap_selected(index: int) -> void:
-	ProjectSettings.set_setting(
-		"rendering/2d/snap/snap_2d_transforms_to_pixel",
-		index == 1
-	)
-
+	pixel_snap_enabled = index == 1
+	apply_pixel_snap()
 	save_settings()
 
 
 func get_fps_index() -> int:
-	match Engine.max_fps:
+	match fps_limit:
 		30:
 			return 0
 		60:
@@ -528,7 +533,8 @@ func get_fps_index() -> int:
 
 func _on_fps_selected(index: int) -> void:
 	var values: Array[int] = [30, 60, 120, 144, 240, 0]
-	Engine.max_fps = values[index]
+	fps_limit = values[clampi(index, 0, values.size() - 1)]
+	Engine.max_fps = fps_limit
 	save_settings()
 
 
@@ -537,7 +543,14 @@ func _on_fps_selected(index: int) -> void:
 # ============================================================
 
 func apply_graphics_settings() -> void:
-	# V-Sync
+	apply_vsync()
+	apply_msaa()
+	apply_pixel_snap()
+	Engine.max_fps = fps_limit
+	apply_texture_filtering()
+
+
+func apply_vsync() -> void:
 	match vsync_mode:
 		0:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
@@ -546,29 +559,40 @@ func apply_graphics_settings() -> void:
 		2:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 
-	# MSAA 2D
-	ProjectSettings.set_setting(
-		"rendering/anti_aliasing/quality/msaa_2d",
-		msaa_2d
-	)
 
-	# Texture filtering
-	ProjectSettings.set_setting(
-		"rendering/textures/default_filters/use_nearest_mipmap_filter",
-		texture_filter_nearest
-	)
+func apply_msaa() -> void:
+	var viewport: Viewport = get_viewport()
+	var value: int = clampi(msaa_2d, 0, 3)
 
-	# Pixel Snap
-	ProjectSettings.set_setting(
-		"rendering/2d/snap/snap_2d_transforms_to_pixel",
+	# O renderer Compatibility não suporta MSAA 2D.
+	# Nesse caso, usa FXAA como alternativa.
+	if RenderingServer.get_current_rendering_method() == "gl_compatibility":
+		viewport.screen_space_aa = (
+			Viewport.SCREEN_SPACE_AA_DISABLED
+			if value == 0
+			else Viewport.SCREEN_SPACE_AA_FXAA
+		)
+		viewport.msaa_2d = Viewport.MSAA_DISABLED
+		return
+
+	match value:
+		0:
+			viewport.msaa_2d = Viewport.MSAA_DISABLED
+		1:
+			viewport.msaa_2d = Viewport.MSAA_2X
+		2:
+			viewport.msaa_2d = Viewport.MSAA_4X
+		3:
+			viewport.msaa_2d = Viewport.MSAA_8X
+
+	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
+
+
+func apply_pixel_snap() -> void:
+	RenderingServer.viewport_set_snap_2d_transforms_to_pixel(
+		get_viewport().get_viewport_rid(),
 		pixel_snap_enabled
 	)
-
-	# FPS
-	Engine.max_fps = fps_limit
-
-	# Aplicar filtragem aos CanvasItem existentes
-	apply_texture_filtering()
 
 
 func apply_texture_filtering() -> void:
@@ -1157,6 +1181,16 @@ func save_settings() -> void:
 	config.set_value("graphics", "pixel_snap", pixel_snap_enabled)
 	config.set_value("graphics", "fps_limit", fps_limit)
 
+	# Mantém os valores nativos coerentes com o estado atual.
+	ProjectSettings.set_setting(
+		"rendering/anti_aliasing/quality/msaa_2d",
+		[0, 2, 4, 8][clampi(msaa_2d, 0, 3)]
+	)
+	ProjectSettings.set_setting(
+		"rendering/2d/snap/snap_2d_transforms_to_pixel",
+		pixel_snap_enabled
+	)
+
 	# Audio
 	if master_slider:
 		config.set_value(
@@ -1244,29 +1278,41 @@ func load_settings() -> void:
 	# Graphics
 	# -------------------------
 
+	set_graphics_to_inspector_defaults()
+
 	if err == OK and config.has_section("graphics"):
 		vsync_mode = clampi(
-			int(config.get_value("graphics", "vsync", 1)),
+			int(config.get_value("graphics", "vsync", default_vsync_mode)),
 			0,
 			2
 		)
 
-		msaa_2d = int(
+		var saved_msaa: int = int(
 			config.get_value(
 				"graphics",
 				"msaa_2d",
-				0
+				default_msaa_2d
 			)
 		)
 
-		if msaa_2d != 0 and msaa_2d != 2 and msaa_2d != 4 and msaa_2d != 8:
-			msaa_2d = 0
+		# Compatibilidade com a versão anterior que salvava 0/2/4/8.
+		match saved_msaa:
+			0:
+				msaa_2d = 0
+			2:
+				msaa_2d = 1
+			4:
+				msaa_2d = 2
+			8:
+				msaa_2d = 3
+			_:
+				msaa_2d = clampi(saved_msaa, 0, 3)
 
 		texture_filter_nearest = bool(
 			config.get_value(
 				"graphics",
 				"texture_filter_nearest",
-				false
+				default_texture_filter_nearest
 			)
 		)
 
@@ -1274,7 +1320,7 @@ func load_settings() -> void:
 			config.get_value(
 				"graphics",
 				"pixel_snap",
-				false
+				default_pixel_snap_enabled
 			)
 		)
 
@@ -1282,18 +1328,14 @@ func load_settings() -> void:
 			config.get_value(
 				"graphics",
 				"fps_limit",
-				60
+				default_fps_limit
 			)
 		)
 
 		if fps_limit != 0 and fps_limit != 30 and fps_limit != 60 and fps_limit != 120 and fps_limit != 144 and fps_limit != 240:
 			fps_limit = 60
 	else:
-		vsync_mode = 1
-		msaa_2d = 0
-		texture_filter_nearest = false
-		pixel_snap_enabled = false
-		fps_limit = 60
+		set_graphics_to_inspector_defaults()
 
 	apply_graphics_settings()
 

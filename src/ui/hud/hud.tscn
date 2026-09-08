@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dcqt180i0m2od" path="res://src/ui/hud/hud.gd" id="1_jobw0"]
 
-[node name="HUD" type="Control" unique_id=380256410 node_paths=PackedStringArray("button")]
+[node name="Pause" type="Control" unique_id=380256410 node_paths=PackedStringArray("button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

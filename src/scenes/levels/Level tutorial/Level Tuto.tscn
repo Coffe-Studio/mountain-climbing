@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://bd6catlyimm0g"]
 
+[ext_resource type="Script" uid="uid://cfqa0ahvngjth" path="res://src/scenes/levels/Level tutorial/level_tuto.gd" id="1_0p1u3"]
 [ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/bg2.png" id="1_cqqb7"]
 [ext_resource type="PackedScene" uid="uid://cxi3ivpubf42w" path="res://src/scenes/player/alys.tscn" id="1_dq2ha"]
 [ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="2_qgkua"]
@@ -18,6 +19,7 @@ colors = PackedColorArray(0.9098039, 0.94509804, 0.9490196, 1, 0.9098039, 0.9450
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_gc4fq"]
 gradient = SubResource("Gradient_cqqb7")
+fill_to = Vector2(1, 1)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cqqb7"]
 lifetime_randomness = 1.0
@@ -5736,7 +5738,9 @@ sources/4 = SubResource("TileSetAtlasSource_a8bl4")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cqqb7"]
 size = Vector2(2511.75, 14)
 
-[node name="Level Tuto" type="Node2D" unique_id=154838651]
+[node name="Level Tuto" type="Node2D" unique_id=154838651 node_paths=PackedStringArray("_hud")]
+script = ExtResource("1_0p1u3")
+_hud = NodePath("Alys/HUD")
 
 [node name="Bgs" type="CanvasGroup" parent="." unique_id=891585015]
 position = Vector2(0, 27)
@@ -5809,7 +5813,7 @@ metadata/_edit_use_anchors_ = true
 libraries/ = SubResource("AnimationLibrary_nvl0o")
 autoplay = &"Playar_in"
 
-[node name="HUD" parent="Alys/HUD" unique_id=380256410 node_paths=PackedStringArray("pause") instance=ExtResource("4_o43xf")]
+[node name="Pause2" parent="Alys/HUD" unique_id=380256410 node_paths=PackedStringArray("pause") instance=ExtResource("4_o43xf")]
 pause = NodePath("../Pause")
 
 [node name="Pause" parent="Alys/HUD" unique_id=512231310 instance=ExtResource("3_7ptbi")]

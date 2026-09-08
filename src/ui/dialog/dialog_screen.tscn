@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://dy7beiixd2ess"]
+
+[ext_resource type="Script" uid="uid://dceujtwumx8gi" path="res://src/ui/dialog/dialog_screen.gd" id="1_2cgg6"]
+[ext_resource type="Texture2D" uid="uid://b0tsulaki3ulg" path="res://assets/logo/logo.png" id="1_e08m3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_s1ctu"]
+line_spacing = 0.0
+font_size = 11
+shadow_color = Color(0, 0, 0, 0.59607846)
+
+[node name="DialogScreen" type="Control" unique_id=868991569 node_paths=PackedStringArray("_name", "_dialog", "_faceset")]
+custom_minimum_size = Vector2(200, 50)
+custom_maximum_size = Vector2(200, 50)
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -60.0
+offset_right = 100.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_2cgg6")
+_name = NodePath("Background/HBox/VBox/Name")
+_dialog = NodePath("Background/HBox/VBox/Dialog")
+_faceset = NodePath("Background/HBox/Border/FaceSet")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1319636108]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 1.1
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+metadata/_edit_use_anchors_ = true
+
+[node name="HBox" type="HBoxContainer" parent="Background" unique_id=1029161199]
+custom_minimum_size = Vector2(190, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.0
+offset_top = -23.0
+offset_right = 98.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Border" type="ColorRect" parent="Background/HBox" unique_id=796158543]
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+
+[node name="FaceSet" type="TextureRect" parent="Background/HBox/Border" unique_id=314645037]
+custom_minimum_size = Vector2(40, 42)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.023809524
+anchor_right = 0.97485876
+anchor_bottom = 0.98644173
+offset_right = 0.05593109
+offset_bottom = -3.37632
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.99860173, 1.0803885)
+texture = ExtResource("1_e08m3")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="VBox" type="VBoxContainer" parent="Background/HBox" unique_id=1749797474]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/HBox/VBox" unique_id=420765269]
+layout_mode = 2
+text = "Personagem"
+label_settings = SubResource("LabelSettings_s1ctu")
+horizontal_alignment = 2
+
+[node name="Dialog" type="RichTextLabel" parent="Background/HBox/VBox" unique_id=1411827449]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/line_separation = 1
+theme_override_constants/paragraph_separation = 1
+theme_override_font_sizes/normal_font_size = 9
+text = "teste de dialogos, ou seja, longos"

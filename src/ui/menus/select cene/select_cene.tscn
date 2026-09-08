@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ch5r8nxc5fuf8"]
+
+[ext_resource type="Texture2D" uid="uid://mewbkbieilpw" path="res://assets/environment/backgrounds/bg4.png" id="1_cw2a7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_s1ctu"]
+font_size = 25
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.34509805)
+
+[node name="Select cene" type="Control" unique_id=1358301002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1064834911]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("1_cw2a7")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=339869649]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 0.22222222
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=399159391]
+layout_mode = 2
+text = "Select cene"
+label_settings = SubResource("LabelSettings_s1ctu")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="." unique_id=1619113667]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.87777776
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=258138876]
+layout_mode = 2
+text = "Tutorial"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1862578720]
+layout_mode = 2
+text = " Level 1 "
