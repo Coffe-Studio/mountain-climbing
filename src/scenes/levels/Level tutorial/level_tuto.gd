@@ -33,7 +33,7 @@ var _dialog_open: bool = false
 func _process(_delta: float) -> void:
 
 	# Dispara somente uma vez quando o botão é pressionado
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("pular_dialogo"):
 
 		# Não cria outro diálogo se já existe um aberto
 		if _dialog_open:

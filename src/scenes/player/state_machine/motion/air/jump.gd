@@ -1,6 +1,7 @@
 class_name Jump extends Air
 
 @export var sond: AudioStreamPlayer2D
+@onready var footstep_sound: AudioStreamPlayer2D = $"../../../Footstep"
 
 var jump_dust_effect_scene: PackedScene = preload("res://src/scenes/effects/jump_dust.tscn")
 
@@ -21,7 +22,6 @@ func physics_update(delta):
 			.apply_air_friction_vertical()
 		
 	if Input.is_action_just_pressed("jump"):
-		# Colocar som de pulo aqui
 		jump()
 
 	if Input.is_action_just_released("jump"):
@@ -44,6 +44,15 @@ func physics_update(delta):
 func jump() -> void:
 	var can_jump: bool = false
 	
+	if animated_sprite and can_jump:
+		animated_sprite.stop()
+		sond.pitch_scale = randf_range(0.85, 1.15)
+		sond.play()
+		footstep_sound.play()
+		animated_sprite.play("jump")
+		var tween = create_tween()
+		tween.tween_property(animated_sprite, "scale:x", 1.0, 0.4).from(0.85).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_BOUNCE)
+	
 	if  not owner.is_on_floor() and godot_essentials_platformer_movement.can_wall_jump():
 		godot_essentials_platformer_movement.wall_jump(horizontal_direction)
 		godot_essentials_platformer_movement.velocity.y += 15
@@ -57,6 +66,7 @@ func jump() -> void:
 	if animated_sprite and can_jump:
 		animated_sprite.stop()
 		sond.play()
+		footstep_sound.play()
 		animated_sprite.play("jump")
 		var tween = create_tween()
 		tween.tween_property(animated_sprite, "scale:x", 1.0, 0.4).from(0.85).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_BOUNCE)

@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dceujtwumx8gi" path="res://src/ui/dialog/dialog_screen.gd" id="1_2cgg6"]
 [ext_resource type="Texture2D" uid="uid://b0tsulaki3ulg" path="res://assets/logo/logo.png" id="1_e08m3"]
+[ext_resource type="AudioStream" uid="uid://dxvsdwuwqga0s" path="res://assets/sonds/SFX/DIalog.wav" id="3_u0j4a"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_s1ctu"]
 line_spacing = 0.0
 font_size = 11
 shadow_color = Color(0, 0, 0, 0.59607846)
 
-[node name="DialogScreen" type="Control" unique_id=868991569 node_paths=PackedStringArray("_name", "_dialog", "_faceset")]
+[node name="DialogScreen" type="Control" unique_id=868991569 node_paths=PackedStringArray("_name", "_dialog", "_faceset", "_sond")]
 custom_minimum_size = Vector2(200, 50)
 custom_maximum_size = Vector2(200, 50)
 layout_mode = 3
@@ -27,6 +28,7 @@ script = ExtResource("1_2cgg6")
 _name = NodePath("Background/HBox/VBox/Name")
 _dialog = NodePath("Background/HBox/VBox/Dialog")
 _faceset = NodePath("Background/HBox/Border/FaceSet")
+_sond = NodePath("AudioStreamPlayer")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1319636108]
 layout_mode = 1
@@ -83,13 +85,17 @@ layout_mode = 2
 layout_mode = 2
 text = "Personagem"
 label_settings = SubResource("LabelSettings_s1ctu")
-horizontal_alignment = 2
 
 [node name="Dialog" type="RichTextLabel" parent="Background/HBox/VBox" unique_id=1411827449]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.16470589)
 theme_override_constants/line_separation = 1
 theme_override_constants/paragraph_separation = 1
 theme_override_font_sizes/normal_font_size = 9
 text = "teste de dialogos, ou seja, longos"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=609400445]
+stream = ExtResource("3_u0j4a")
+volume_db = -3.0
+bus = &"SFX"

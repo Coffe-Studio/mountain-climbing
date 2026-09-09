@@ -7,6 +7,7 @@ class_name Alys extends CharacterBody2D
 @onready var ledge_climb_detector: RayCast2D = $LedgeClimbDetector
 @onready var effects: Node2D = $Effects
 @onready var idle: Idle = $GodotEssentialsFiniteStateMachine/Ground/Idle
+@export var death: AudioStreamPlayer2D
 
 var is_left_direction: bool = false
 
@@ -40,6 +41,7 @@ func disable_effects():
 
 func _on_hurtbox_area_entered(_area):
 	animation_player.play("death")
+	death.play()
 	godot_essentials_finite_state_machine.lock_state_machine()
 	
 

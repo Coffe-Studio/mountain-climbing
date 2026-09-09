@@ -13,6 +13,7 @@ class_name DIalogScreen
 @export var _name: Label
 @export var _dialog: RichTextLabel
 @export var _faceset: TextureRect
+@export var _sond: AudioStreamPlayer
 
 
 # Dados do diálogo
@@ -35,11 +36,11 @@ func _process(_delta: float) -> void:
 		return
 
 	# Segurar o botão acelera a escrita
-	_skip_typing = Input.is_action_pressed("ui_accept")
+	_skip_typing = Input.is_action_pressed("pular_dialogo")
 
 	# Apertar o botão enquanto escreve:
 	# completa a fala imediatamente.
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("pular_dialogo"):
 
 		if _is_typing:
 			_finish_typing()
@@ -103,8 +104,6 @@ func _type_dialog() -> void:
 
 	while _dialog.visible_characters < _dialog.text.length():
 
-		# Se o jogador segurou o botão,
-		# a velocidade aumenta.
 		var current_speed := normal_speed
 
 		if _skip_typing:
@@ -112,18 +111,32 @@ func _type_dialog() -> void:
 
 		await get_tree().create_timer(current_speed).timeout
 
-		# O nó pode ter sido destruído durante o await
 		if not is_inside_tree():
 			return
 
-		# Evita continuar se outra fala começou
 		if not _is_typing:
 			return
 
 		_dialog.visible_characters += 1
 
+		_play_text_sound()
+
 	_is_typing = false
 
+func _play_text_sound() -> void:
+	if _sond == null:
+		return
+
+	if _dialog.visible_characters <= 0:
+		return
+
+	var character := _dialog.text[_dialog.visible_characters - 1]
+
+	# Não toca som em espaços
+	if character == " ":
+		return
+
+	_sond.play()
 
 func _finish_typing() -> void:
 	if not _dialog:
