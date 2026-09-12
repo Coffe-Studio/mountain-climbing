@@ -3,9 +3,16 @@
 [ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/ui/menus/main/Main menu.gd" id="1_p0cpe"]
 [ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_34mvd"]
 [ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="3_p0cpe"]
-[ext_resource type="AudioStream" uid="uid://wxsejjlwgtlb" path="res://assets/sonds/SFX/dash.wav" id="4_fn25p"]
 [ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/ui/menus/settings/settings.tscn" id="5_34mvd"]
 [ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Menus/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(320, 180, 1)
+spread = 20.0
+gravity = Vector3(0, 20, 0)
+scale_max = 2.0
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -466,35 +473,20 @@ _data = {
 &"Settings_out": SubResource("Animation_bsjkl")
 }
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
-lifetime_randomness = 1.0
-emission_shape = 3
-emission_box_extents = Vector3(320, 180, 1)
-spread = 20.0
-gravity = Vector3(0, 20, 0)
-scale_max = 2.0
-
 [sub_resource type="LabelSettings" id="LabelSettings_lt4el"]
 font_size = 8
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.1882353)
 
-[node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("SondInitial", "animation")]
+[node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("animation")]
 script = ExtResource("1_p0cpe")
-SondInitial = NodePath("Sonds/SFX")
 animation = NodePath("Camera2D/AnimationPlayer")
 
 [node name="Sonds" type="CanvasGroup" parent="." unique_id=1869077696]
 
-[node name="SFX" type="AudioStreamPlayer2D" parent="Sonds" unique_id=948266358]
-stream = ExtResource("4_fn25p")
-volume_db = -12.926
-autoplay = true
-bus = &"SFX"
-
 [node name="Music" type="AudioStreamPlayer2D" parent="Sonds" unique_id=453826995]
 stream = ExtResource("5_pm78a")
-volume_db = 8.0
+volume_db = 10.0
 autoplay = true
 bus = &"Music"
 
@@ -513,6 +505,22 @@ flip_v = true
 position = Vector2(162.74998, 88.5)
 scale = Vector2(0.16953126, 0.18611111)
 texture = ExtResource("2_34mvd")
+
+[node name="Title" type="Sprite2D" parent="." unique_id=1433549830]
+position = Vector2(160, 42.299995)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_p0cpe")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2105287038]
+position = Vector2(181, 47.999985)
+rotation = 0.2617994
+scale = Vector2(0.99999994, 0.99999994)
+amount = 1200
+lifetime = 5.0
+preprocess = 5.0
+randomness = 0.5
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_p0cpe")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1444511565]
 position = Vector2(160, 28)
@@ -535,15 +543,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D" unique_id=535712325]
 libraries/ = SubResource("AnimationLibrary_ncxqe")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D" unique_id=2105287038]
-position = Vector2(25.460815, 13.883305)
-amount = 1200
-lifetime = 5.0
-preprocess = 5.0
-randomness = 0.5
-trail_lifetime = 5.0
-process_material = SubResource("ParticleProcessMaterial_p0cpe")
 
 [node name="Buttons" type="HBoxContainer" parent="." unique_id=325194069]
 offset_top = 168.0
@@ -572,16 +571,11 @@ theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Quit "
 
-[node name="Title" type="Sprite2D" parent="." unique_id=1433549830]
-position = Vector2(160.00002, 42.299995)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_p0cpe")
-
 [node name="Version" type="Label" parent="." unique_id=1208997594]
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "05/09/2026 (0005,1)"
+text = "10/09/2026 (0005,3)"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -589,14 +583,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Settings" parent="." unique_id=934493892 node_paths=PackedStringArray("open_button") instance=ExtResource("5_34mvd")]
 follow_viewport_enabled = true
-toggle_key = 4194305
 open_button = NodePath("../Buttons/Settings")
 panel_width = 320.0
-scrollbar_padding = 8.0
 animation_time = 0.22
-action_names = Array[String](["p0_button_0", "p0_button_1", "p0_button_2", "p0_button_3"])
-action_labels = Array[String](["Track 1", "Track 2", "Track 3", "Track 4"])
-default_keys = Array[int]([65, 83, 68, 87, 4194325, 32])
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Buttons/Quit" to="." method="_on_quit_pressed"]

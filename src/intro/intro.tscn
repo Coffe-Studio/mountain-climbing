@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cf0c4ocdbvs53" path="res://src/intro/intro.gd" id="1_0tdaw"]
 [ext_resource type="VideoStream" uid="uid://def5cmiow8yel" path="res://assets/cutcines/Novo-projeto-6-_6691D9D_.ogv" id="2_txmmr"]
+[ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/ui/menus/settings/settings.tscn" id="3_yenea"]
 
 [node name="Intro" type="Control" unique_id=565621894]
 layout_mode = 3
@@ -12,10 +13,21 @@ script = ExtResource("1_0tdaw")
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 180.0
+offset_transform_enabled = true
 stream = ExtResource("2_txmmr")
+volume_db = 5.9999995
 autoplay = true
 expand = true
 bus = &"Music"
 metadata/_edit_use_anchors_ = true
+
+[node name="Settings" parent="." unique_id=934493892 node_paths=PackedStringArray("open_button") instance=ExtResource("3_yenea")]
+open_button = NodePath("Apeans para funcionar")
+
+[node name="Apeans para funcionar" type="Button" parent="Settings" unique_id=173760362]
+offset_left = -121.428566
+offset_top = -22.85714
+offset_right = -113.428566
+offset_bottom = -14.85714
 
 [connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]

@@ -45,8 +45,8 @@ func _on_hurtbox_area_entered(_area):
 	godot_essentials_finite_state_machine.lock_state_machine()
 	
 
-func on_animation_player_finished(name: String):
-	if name == "death":
+func on_animation_player_finished(_name: String):
+	if _name == "death":
 		global_position = get_tree().get_first_node_in_group("respawn").global_position
 		animated_sprite_2d.modulate.a = 1.0
 		godot_essentials_finite_state_machine.current_state = idle

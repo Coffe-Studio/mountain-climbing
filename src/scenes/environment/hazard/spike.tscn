@@ -10,6 +10,7 @@ size = Vector2(10, 5)
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=427624899]
 scale = Vector2(0.8125, 0.8125)
 texture = ExtResource("1_r15qc")
+offset = Vector2(0, -5)
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=463437819]
 collision_layer = 16
@@ -17,6 +18,5 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Hitbox" unique_id=763015162]
-position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_50mfm")
 debug_color = Color(0.909804, 0.286275, 0.345098, 0.419608)

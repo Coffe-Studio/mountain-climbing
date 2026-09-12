@@ -35,7 +35,7 @@ func _on_quit_pressed() -> void:
 
 
 func _on_back_pressed() -> void:
-	anim.play("pause_out")
+	anim.play("pause_out_back")
 	await anim.animation_finished
 	toggle_pause()
 	pausado_teclado = 1

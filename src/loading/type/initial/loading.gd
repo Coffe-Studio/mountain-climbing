@@ -88,8 +88,8 @@ func _ready() -> void:
 	if sprite:
 		sprite.play("loading_playar")
 
-	if anim:
-		anim.play("loading_in")
+#	if anim:
+#		anim.play("loading_in")
 
 
 	# --------------------------------------

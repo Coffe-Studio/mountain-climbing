@@ -423,6 +423,9 @@ func _on_debug_selected(index: int) -> void:
 func apply_debug_display() -> void:
 	# O menu apenas armazena o estado de Debug.
 	# O overlay específico do projeto pode ler `debug_enabled`.
+	var _objeto = get_tree().get_first_node_in_group("DebugDisplay")
+	if _objeto:
+		_objeto.visible = true
 	pass
 
 

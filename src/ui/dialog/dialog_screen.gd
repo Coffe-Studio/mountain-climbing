@@ -35,25 +35,41 @@ func _process(_delta: float) -> void:
 	if data.is_empty():
 		return
 
-	# Segurar o botão acelera a escrita
-	_skip_typing = Input.is_action_pressed("pular_dialogo")
+	# Segurar o botão do teclado acelera a escrita
+	# O mouse também acelera enquanto estiver segurado
+	_skip_typing = Input.is_action_pressed("pular_dialogo") \
+		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 
-	# Apertar o botão enquanto escreve:
-	# completa a fala imediatamente.
+
+	# Teclado
 	if Input.is_action_just_pressed("pular_dialogo"):
+		_handle_dialog_input()
 
-		if _is_typing:
-			_finish_typing()
-			return
 
-		# Se terminou de escrever, vai para a próxima fala
-		_id += 1
+func _input(event: InputEvent) -> void:
+	# Clique esquerdo do mouse
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_handle_dialog_input()
 
-		if _id >= data.size():
-			queue_free()
-			return
 
-		_initialize_dialog()
+func _handle_dialog_input() -> void:
+	if data.is_empty():
+		return
+
+	# Se ainda está digitando, completa a fala
+	if _is_typing:
+		_finish_typing()
+		return
+
+	# Se terminou de escrever, vai para a próxima fala
+	_id += 1
+
+	if _id >= data.size():
+		queue_free()
+		return
+
+	_initialize_dialog()
 
 
 func _initialize_dialog() -> void:
@@ -88,7 +104,9 @@ func _initialize_dialog() -> void:
 			if texture:
 				_faceset.texture = texture
 			else:
-				push_warning("Não foi possível carregar o faceset: " + faceset_path)
+				push_warning(
+					"Não foi possível carregar o faceset: " + faceset_path
+				)
 
 	# Começa a animação
 	_dialog.visible_characters = 0
@@ -106,6 +124,7 @@ func _type_dialog() -> void:
 
 		var current_speed := normal_speed
 
+		# Segurar teclado ou mouse acelera a escrita
 		if _skip_typing:
 			current_speed = fast_speed
 
@@ -123,6 +142,7 @@ func _type_dialog() -> void:
 
 	_is_typing = false
 
+
 func _play_text_sound() -> void:
 	if _sond == null:
 		return
@@ -136,7 +156,12 @@ func _play_text_sound() -> void:
 	if character == " ":
 		return
 
+	# Pequena variação de pitch para cada letra
+	_sond.pitch_scale = randf_range(0.95, 1.05)
+
+	# Toca o som
 	_sond.play()
+
 
 func _finish_typing() -> void:
 	if not _dialog:
