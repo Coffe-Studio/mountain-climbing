@@ -8,11 +8,13 @@ size = Vector2(10, 5)
 [node name="Spike" type="Node2D" unique_id=1211643642]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=427624899]
+position = Vector2(0, -2)
 scale = Vector2(0.8125, 0.8125)
 texture = ExtResource("1_r15qc")
 offset = Vector2(0, -5)
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=463437819]
+position = Vector2(0, -2)
 collision_layer = 16
 collision_mask = 0
 monitoring = false

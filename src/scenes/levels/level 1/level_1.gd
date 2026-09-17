@@ -1,21 +1,20 @@
 extends Node2D
 class_name LevelTuto
 
+@export var fala1: Area2D
+
 const _DIALOG_SCREEN: PackedScene = preload("res://src/ui/dialog/dialog_screen.tscn")
 
 var _dialog_data: Dictionary = {
 	0: {
-		"faceset": "res://assets/character_animations/death_frame.png",
 		"dialog": "teste de dialogos fodas, isso está demorando pra prr ;-;",
 		"title": "Teste"
 	},
 	1: {
-		"faceset": "res://assets/character_animations/death_frame.png",
 		"dialog": "Mas acho que vai dar errado...",
 		"title": "Teste"
 	},
 	2: {
-		"faceset": "res://assets/character_animations/death_frame.png",
 		"dialog": "Será?",
 		"title": "Teste"
 	}
@@ -30,15 +29,7 @@ var _dialog_open: bool = false
 
 
 func _process(_delta: float) -> void:
-
-	# Dispara somente uma vez quando o botão é pressionado
-	if Input.is_action_just_pressed("pular_dialogo"):
-
-		# Não cria outro diálogo se já existe um aberto
-		if _dialog_open:
-			return
-
-		_open_dialog()
+	pass
 
 
 func _open_dialog() -> void:
@@ -61,3 +52,13 @@ func _open_dialog() -> void:
 
 func _on_dialog_closed() -> void:
 	_dialog_open = false
+
+
+
+func _on_dialog_1_body_entered(_body: Node2D) -> void:
+	if not _body == CharacterBody2D:
+		_open_dialog()
+		if _dialog_open:
+			return
+	else:
+		print("sa porra não tá reconecendo")

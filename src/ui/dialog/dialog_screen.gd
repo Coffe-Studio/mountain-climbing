@@ -12,7 +12,6 @@ class_name DIalogScreen
 @export_category("Objects")
 @export var _name: Label
 @export var _dialog: RichTextLabel
-@export var _faceset: TextureRect
 @export var _sond: AudioStreamPlayer
 
 
@@ -91,22 +90,6 @@ func _initialize_dialog() -> void:
 	# Texto
 	if _dialog:
 		_dialog.text = str(current_dialog.get("dialog", ""))
-
-	# Retrato
-	if _faceset:
-		var faceset_path: String = str(current_dialog.get("faceset", ""))
-
-		if faceset_path.is_empty():
-			_faceset.texture = null
-		else:
-			var texture = load(faceset_path)
-
-			if texture:
-				_faceset.texture = texture
-			else:
-				push_warning(
-					"Não foi possível carregar o faceset: " + faceset_path
-				)
 
 	# Começa a animação
 	_dialog.visible_characters = 0

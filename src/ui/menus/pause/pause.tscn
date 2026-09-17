@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://ds7rgth6sp5vk"]
 
 [ext_resource type="Script" uid="uid://bxhprovs5bhs0" path="res://src/ui/menus/pause/pause.gd" id="1_3cp8b"]
-[ext_resource type="Texture2D" uid="uid://daf8xgvps0c6y" path="res://assets/environment/backgrounds/bg3.png" id="2_3cp8b"]
+[ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_cl15e"]
+[ext_resource type="Texture2D" uid="uid://didiqf81j1sdg" path="res://assets/environment/backgrounds/plans/plan3.png" id="3_uv64i"]
 
 [sub_resource type="Animation" id="Animation_3cp8b"]
 length = 0.001
@@ -260,14 +261,27 @@ color = Color(0, 0, 0, 0)
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1554510733]
 process_mode = 3
 modulate = Color(1, 1, 1, 0)
-position = Vector2(160, 89.49999)
-scale = Vector2(0.5555556, 0.55246913)
-texture = ExtResource("2_3cp8b")
+position = Vector2(155.33334, 93.04169)
+scale = Vector2(0.17013888, 0.16844134)
+texture = ExtResource("2_cl15e")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" unique_id=714139003]
 process_mode = 3
 libraries/ = SubResource("AnimationLibrary_hp5oe")
 autoplay = &"pause_in"
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D" unique_id=60657236]
+process_mode = 3
+position = Vector2(14.203981, -10.63685)
+scale = Vector2(3.382653, 3.3989925)
+texture = ExtResource("3_uv64i")
+flip_v = true
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprite2D" unique_id=1687721180]
+process_mode = 3
+position = Vector2(14.203981, -10.63685)
+scale = Vector2(3.382653, 3.3989925)
+texture = ExtResource("3_uv64i")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1783743091]
 layout_mode = 1

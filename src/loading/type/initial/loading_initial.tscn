@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://boewo46r0oqvg" path="res://assets/character_animations/WalkR_strip8.png" id="4_lbhpy"]
 [ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="5_xn1y2"]
 [ext_resource type="Texture2D" uid="uid://qqbchvllsyu8" path="res://assets/tilesets/8x8_nature.png" id="6_37raj"]
-[ext_resource type="Texture2D" uid="uid://bgdw7gy5w7uwg" path="res://assets/tilesets/titleset-ver2.png" id="7_nubbj"]
+[ext_resource type="Texture2D" uid="uid://bgdw7gy5w7uwg" path="res://assets/tilesets/16x/titleset-ver2.png" id="7_nubbj"]
 [ext_resource type="Texture2D" uid="uid://c8k86suo17qvm" path="res://assets/tilesets/titleset-ver1.png" id="8_lwuv1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_28l04"]

@@ -2,17 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bksp50whw7i05" path="res://src/ui/menus/main/Main menu.gd" id="1_p0cpe"]
 [ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_34mvd"]
+[ext_resource type="Texture2D" uid="uid://dlc1wobjl823l" path="res://assets/environment/backgrounds/plans/plan1.png" id="3_nd1l8"]
 [ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="3_p0cpe"]
+[ext_resource type="Texture2D" uid="uid://bk1fyqdxuxqyw" path="res://assets/environment/backgrounds/plans/plan2.png" id="4_j1eut"]
+[ext_resource type="Theme" uid="uid://d12ovverhmlvb" path="res://assets/theme/theme.tres" id="5_5nud3"]
 [ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/ui/menus/settings/settings.tscn" id="5_34mvd"]
 [ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Menus/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
-lifetime_randomness = 1.0
-emission_shape = 3
-emission_box_extents = Vector3(320, 180, 1)
-spread = 20.0
-gravity = Vector3(0, 20, 0)
-scale_max = 2.0
+[ext_resource type="Texture2D" uid="uid://cu870wssrc8jf" path="res://assets/environment/neve.png" id="9_j1eut"]
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -478,9 +474,46 @@ font_size = 8
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.1882353)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(220, 180, 1)
+angle_min = -720.0
+angle_max = 723.0
+spread = 20.0
+gravity = Vector3(0, 20, 0)
+
 [node name="Main menu" type="Node2D" unique_id=44695750 node_paths=PackedStringArray("animation")]
 script = ExtResource("1_p0cpe")
 animation = NodePath("Camera2D/AnimationPlayer")
+
+[node name="BG" type="Parallax2D" parent="." unique_id=210742919]
+z_index = -10
+scroll_scale = Vector2(0.2, 1)
+scroll_offset = Vector2(-120, 72)
+autoscroll = Vector2(1, 0)
+
+[node name="B" type="Sprite2D" parent="BG" unique_id=1654534544]
+position = Vector2(336.00003, 7.999996)
+scale = Vector2(0.2546875, 0.21018517)
+texture = ExtResource("2_34mvd")
+flip_h = true
+
+[node name="BB" type="Sprite2D" parent="BG" unique_id=318547633]
+position = Vector2(235.00002, -191.25002)
+scale = Vector2(0.2546875, 0.22361109)
+texture = ExtResource("2_34mvd")
+flip_v = true
+
+[node name="HH" type="Sprite2D" parent="BG" unique_id=1800590269]
+position = Vector2(91.999954, 6.399994)
+scale = Vector2(0.7013889, 0.7)
+texture = ExtResource("3_nd1l8")
+
+[node name="H" type="Sprite2D" parent="BG" unique_id=790705895]
+position = Vector2(442.00003, 54)
+scale = Vector2(0.71493053, 0.7)
+texture = ExtResource("4_j1eut")
 
 [node name="Sonds" type="CanvasGroup" parent="." unique_id=1869077696]
 
@@ -490,37 +523,10 @@ volume_db = 10.0
 autoplay = true
 bus = &"Music"
 
-[node name="Bg" type="Parallax2D" parent="." unique_id=1434753764]
-scroll_scale = Vector2(0.6, 0.6)
-repeat_size = Vector2(320, 0)
-repeat_times = 2
-
-[node name="BackgrondMenu3" type="Sprite2D" parent="Bg" unique_id=1635631139]
-position = Vector2(162.74998, -94.00001)
-scale = Vector2(0.16953126, 0.17407408)
-texture = ExtResource("2_34mvd")
-flip_v = true
-
-[node name="BackgrondMenu" type="Sprite2D" parent="Bg" unique_id=1422032528]
-position = Vector2(162.74998, 88.5)
-scale = Vector2(0.16953126, 0.18611111)
-texture = ExtResource("2_34mvd")
-
 [node name="Title" type="Sprite2D" parent="." unique_id=1433549830]
 position = Vector2(160, 42.299995)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_p0cpe")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2105287038]
-position = Vector2(181, 47.999985)
-rotation = 0.2617994
-scale = Vector2(0.99999994, 0.99999994)
-amount = 1200
-lifetime = 5.0
-preprocess = 5.0
-randomness = 0.5
-trail_lifetime = 5.0
-process_material = SubResource("ParticleProcessMaterial_p0cpe")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1444511565]
 position = Vector2(160, 28)
@@ -546,20 +552,22 @@ libraries/ = SubResource("AnimationLibrary_ncxqe")
 
 [node name="Buttons" type="HBoxContainer" parent="." unique_id=325194069]
 offset_top = 168.0
-offset_right = 319.0
-offset_bottom = 190.0
+offset_right = 399.99997
+offset_bottom = 194.0
+scale = Vector2(0.8, 0.8)
 theme_override_constants/separation = 15
 alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Play" type="Button" parent="Buttons" unique_id=1965462441]
 layout_mode = 2
+theme = ExtResource("5_5nud3")
 theme_override_font_sizes/font_size = 10
 text = "Play"
 
 [node name="Settings" type="Button" parent="Buttons" unique_id=312966621]
 layout_mode = 2
 focus_mode = 1
+theme = ExtResource("5_5nud3")
 theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Settings"
@@ -567,6 +575,7 @@ text = "Settings"
 [node name="Quit" type="Button" parent="Buttons" unique_id=1687446670]
 layout_mode = 2
 focus_mode = 1
+theme = ExtResource("5_5nud3")
 theme_override_font_sizes/font_size = 10
 action_mode = 0
 text = "Quit "
@@ -575,7 +584,7 @@ text = "Quit "
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "10/09/2026 (0005,3)"
+text = "17/09/2026 (0006,3)"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -584,8 +593,18 @@ metadata/_edit_use_anchors_ = true
 [node name="Settings" parent="." unique_id=934493892 node_paths=PackedStringArray("open_button") instance=ExtResource("5_34mvd")]
 follow_viewport_enabled = true
 open_button = NodePath("../Buttons/Settings")
-panel_width = 320.0
 animation_time = 0.22
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2105287038]
+position = Vector2(184, 88)
+scale = Vector2(0.9999999, 0.9999999)
+amount = 1200
+texture = ExtResource("9_j1eut")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 0.5
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_p0cpe")
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Buttons/Quit" to="." method="_on_quit_pressed"]

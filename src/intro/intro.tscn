@@ -3,6 +3,16 @@
 [ext_resource type="Script" uid="uid://cf0c4ocdbvs53" path="res://src/intro/intro.gd" id="1_0tdaw"]
 [ext_resource type="VideoStream" uid="uid://def5cmiow8yel" path="res://assets/cutcines/Novo-projeto-6-_6691D9D_.ogv" id="2_txmmr"]
 [ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/ui/menus/settings/settings.tscn" id="3_yenea"]
+[ext_resource type="Texture2D" uid="uid://cu870wssrc8jf" path="res://assets/environment/neve.png" id="4_11jar"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nqxh0"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(300, 180, 1)
+angle_min = -720.0
+angle_max = 723.0
+spread = 20.0
+gravity = Vector3(-5, 10, 0)
 
 [node name="Intro" type="Control" unique_id=565621894]
 layout_mode = 3
@@ -15,7 +25,7 @@ offset_right = 320.0
 offset_bottom = 180.0
 offset_transform_enabled = true
 stream = ExtResource("2_txmmr")
-volume_db = 5.9999995
+volume_db = 5.999999
 autoplay = true
 expand = true
 bus = &"Music"
@@ -29,5 +39,16 @@ offset_left = -121.428566
 offset_top = -22.85714
 offset_right = -113.428566
 offset_bottom = -14.85714
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=374950467]
+position = Vector2(184, 88)
+scale = Vector2(0.9999999, 0.9999999)
+amount = 1200
+texture = ExtResource("4_11jar")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 0.5
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_nqxh0")
 
 [connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]

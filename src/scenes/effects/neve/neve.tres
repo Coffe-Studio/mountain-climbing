@@ -1,0 +1,10 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://bhv108em1f0qf"]
+
+[resource]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(400, 180, 1)
+angle_min = -104.79999
+angle_max = -8.79999
+gravity = Vector3(-20, 20, 0)
+scale_min = 0.5
