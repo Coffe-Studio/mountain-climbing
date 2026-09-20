@@ -3,7 +3,7 @@
 [resource]
 lifetime_randomness = 1.0
 emission_shape = 3
-emission_box_extents = Vector3(400, 180, 1)
+emission_box_extents = Vector3(456, 150, 1)
 angle_min = -104.79999
 angle_max = -8.79999
 gravity = Vector3(-20, 20, 0)

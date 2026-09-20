@@ -20,10 +20,9 @@ config/name_localized={
 "pt_BR": ""
 }
 config/description="Jogo de montanhas"
-config/version="05/09/2026(0004,1)"
+config/version="17/09/2026 (0006,3)"
 run/main_scene="uid://4121pag2di7o"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-boot_splash/image="uid://cxwj0jr5cfvlm"
 config/icon="uid://b0tsulaki3ulg"
 
 [audio]
@@ -42,7 +41,7 @@ file_logging/enable_file_logging=true
 
 window/size/viewport_width=320
 window/size/viewport_height=180
-window/size/mode=2
+window/size/mode=3
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"

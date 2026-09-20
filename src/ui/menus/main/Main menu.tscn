@@ -5,10 +5,18 @@
 [ext_resource type="Texture2D" uid="uid://dlc1wobjl823l" path="res://assets/environment/backgrounds/plans/plan1.png" id="3_nd1l8"]
 [ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="3_p0cpe"]
 [ext_resource type="Texture2D" uid="uid://bk1fyqdxuxqyw" path="res://assets/environment/backgrounds/plans/plan2.png" id="4_j1eut"]
-[ext_resource type="Theme" uid="uid://d12ovverhmlvb" path="res://assets/theme/theme.tres" id="5_5nud3"]
+[ext_resource type="Theme" uid="uid://dt88km6n1hf26" path="res://assets/theme/theme.tres" id="5_5nud3"]
 [ext_resource type="PackedScene" uid="uid://dkpaocaam6f4x" path="res://src/ui/menus/settings/settings.tscn" id="5_34mvd"]
 [ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Menus/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
 [ext_resource type="Texture2D" uid="uid://cu870wssrc8jf" path="res://assets/environment/neve.png" id="9_j1eut"]
+
+[sub_resource type="Gradient" id="Gradient_j1eut"]
+colors = PackedColorArray(0.62352943, 0.68235296, 0.827451, 1, 0.62352943, 0.6862745, 0.827451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j1eut"]
+gradient = SubResource("Gradient_j1eut")
+fill_from = Vector2(0.53110045, 0)
+fill_to = Vector2(0.5119617, 1)
 
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
@@ -493,21 +501,23 @@ scroll_scale = Vector2(0.2, 1)
 scroll_offset = Vector2(-120, 72)
 autoscroll = Vector2(1, 0)
 
+[node name="ColorRect" type="TextureRect" parent="BG" unique_id=39988886]
+offset_left = 89.0
+offset_top = -189.0
+offset_right = 581.0
+offset_bottom = -93.0
+texture = SubResource("GradientTexture2D_j1eut")
+metadata/_edit_use_anchors_ = true
+
 [node name="B" type="Sprite2D" parent="BG" unique_id=1654534544]
 position = Vector2(336.00003, 7.999996)
 scale = Vector2(0.2546875, 0.21018517)
 texture = ExtResource("2_34mvd")
 flip_h = true
 
-[node name="BB" type="Sprite2D" parent="BG" unique_id=318547633]
-position = Vector2(235.00002, -191.25002)
-scale = Vector2(0.2546875, 0.22361109)
-texture = ExtResource("2_34mvd")
-flip_v = true
-
 [node name="HH" type="Sprite2D" parent="BG" unique_id=1800590269]
-position = Vector2(91.999954, 6.399994)
-scale = Vector2(0.7013889, 0.7)
+position = Vector2(96.00001, 8.000002)
+scale = Vector2(0.7048612, 0.7154321)
 texture = ExtResource("3_nd1l8")
 
 [node name="H" type="Sprite2D" parent="BG" unique_id=790705895]
@@ -525,7 +535,7 @@ bus = &"Music"
 
 [node name="Title" type="Sprite2D" parent="." unique_id=1433549830]
 position = Vector2(160, 42.299995)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_p0cpe")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1444511565]
@@ -584,7 +594,7 @@ text = "Quit "
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "17/09/2026 (0006,3)"
+text = "17/09/2026 (0007 )"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1

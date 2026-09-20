@@ -63,8 +63,8 @@ func physics_update(delta):
 		state_finished.emit("Fall", {})
 
 
-func emit_dust_particles(horizontal_direction: Vector2):
-	match(horizontal_direction):
+func emit_dust_particles(_horizontal_direction: Vector2):
+	match(_horizontal_direction):
 		Vector2.RIGHT:
 			running_dust.gravity = Vector2(-running_dust.gravity.x, running_dust.gravity.y)
 

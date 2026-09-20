@@ -71,7 +71,6 @@ var master_slider: HSlider
 var music_slider: HSlider
 var sfx_slider: HSlider
 
-var option_button: OptionButton
 
 var option_button_vsinc: OptionButton
 
@@ -85,13 +84,16 @@ var waiting_input_type: String = ""
 var opened: bool = false
 var tween: Tween = null
 
-var debug_enabled: bool = false
 
 # Graphics
 # Os valores abaixo aparecem no Inspector e definem os padrões do jogo.
 @export_group("Graphics Defaults")
 @export_enum("Disabled:0", "Enabled:1", "Adaptive:2")
 var default_vsync_mode: int = 1
+
+# 0 = Windowed, 1 = Borderless Windowed, 2 = Exclusive Fullscreen, 3 = Borderless Fullscreen.
+@export_enum("Windowed:0", "Borderless Windowed:1", "Fullscreen:2", "Borderless Fullscreen:3")
+var default_window_mode: int = 0
 
 @export_enum("Disabled:0", "2x MSAA:1", "4x MSAA:2", "8x MSAA:3")
 var default_msaa_2d: int = 0
@@ -108,6 +110,8 @@ var default_msaa_2d: int = 0
 var default_fps_limit: int = 60
 
 var vsync_mode: int = 1
+var window_mode: int = 0
+var pending_window_mode: int = 0
 var msaa_2d: int = 0
 var texture_filter_nearest: bool = false
 var pixel_snap_enabled: bool = false
@@ -336,6 +340,22 @@ func show_general_page() -> void:
 	vsync_button.item_selected.connect(_on_vsync_selected)
 	content.add_child(vsync_row)
 
+	# Window Mode
+	var window_mode_row: HBoxContainer = create_option_row(
+		"Window Mode",
+		[
+			"Windowed",
+			"Borderless",
+			"Fullscreen",
+			"Borderless FS"
+		]
+	)
+	var window_mode_button: OptionButton = window_mode_row.get_node("OptionButton")
+	window_mode_button.select(get_window_mode_index())
+	window_mode_button.item_selected.connect(_on_window_mode_selected)
+	window_mode_button.fit_to_longest_item = false
+	content.add_child(window_mode_row)
+
 	# Anti-Aliasing
 	var aa_row: HBoxContainer = create_option_row(
 		"Anti-Aliasing",
@@ -378,24 +398,6 @@ func show_general_page() -> void:
 	content.add_child(fps_row)
 
 	# --------------------------------------------------------
-	# DEBUG
-	# --------------------------------------------------------
-
-	content.add_child(create_subtitle("Debug"))
-	content.add_child(create_separator())
-
-	var debug_row: HBoxContainer = create_option_row(
-		"Show Debug",
-		["Disabled", "Enabled"]
-	)
-
-	option_button = debug_row.get_node("OptionButton")
-	option_button.select(1 if debug_enabled else 0)
-	option_button.item_selected.connect(_on_debug_selected)
-
-	content.add_child(debug_row)
-
-	# --------------------------------------------------------
 	# RESET / APPLY
 	# --------------------------------------------------------
 
@@ -410,23 +412,8 @@ func show_general_page() -> void:
 	apply_btn.text = "Apply Changes"
 	apply_btn.custom_minimum_size.y = 20
 	apply_btn.add_theme_font_size_override("font_size", 10)
-	apply_btn.pressed.connect(save_settings)
+	apply_btn.pressed.connect(apply_graphics_changes)
 	content.add_child(apply_btn)
-
-
-func _on_debug_selected(index: int) -> void:
-	debug_enabled = index == 1
-	apply_debug_display()
-	save_settings()
-
-
-func apply_debug_display() -> void:
-	# O menu apenas armazena o estado de Debug.
-	# O overlay específico do projeto pode ler `debug_enabled`.
-	var _objeto = get_tree().get_first_node_in_group("DebugDisplay")
-	if _objeto:
-		_objeto.visible = true
-	pass
 
 
 func create_option_row(label_text: String, options: Array[String]) -> HBoxContainer:
@@ -460,10 +447,12 @@ func create_option_row(label_text: String, options: Array[String]) -> HBoxContai
 
 func set_graphics_to_inspector_defaults() -> void:
 	vsync_mode = clampi(default_vsync_mode, 0, 2)
+	window_mode = clampi(default_window_mode, 0, 3)
 	msaa_2d = clampi(default_msaa_2d, 0, 3)
 	texture_filter_nearest = default_texture_filter_nearest
 	pixel_snap_enabled = default_pixel_snap_enabled
 	fps_limit = default_fps_limit
+	pending_window_mode = window_mode
 
 	if fps_limit != 0 and fps_limit != 30 and fps_limit != 60 and fps_limit != 120 and fps_limit != 144 and fps_limit != 240:
 		fps_limit = 60
@@ -471,6 +460,7 @@ func set_graphics_to_inspector_defaults() -> void:
 
 func reset_graphics_to_default() -> void:
 	set_graphics_to_inspector_defaults()
+	pending_window_mode = window_mode
 	apply_graphics_settings()
 	save_settings()
 
@@ -486,6 +476,15 @@ func _on_vsync_selected(index: int) -> void:
 	vsync_mode = clampi(index, 0, 2)
 	apply_vsync()
 	save_settings()
+
+
+func get_window_mode_index() -> int:
+	pending_window_mode = clampi(pending_window_mode, 0, 3)
+	return pending_window_mode
+
+
+func _on_window_mode_selected(index: int) -> void:
+	pending_window_mode = clampi(index, 0, 3)
 
 
 func get_msaa_index() -> int:
@@ -545,8 +544,16 @@ func _on_fps_selected(index: int) -> void:
 # APPLY GRAPHICS
 # ============================================================
 
+func apply_graphics_changes() -> void:
+	# Window Mode só é aplicado quando o jogador confirma.
+	window_mode = clampi(pending_window_mode, 0, 3)
+	apply_window_mode()
+	save_settings()
+
+
 func apply_graphics_settings() -> void:
 	apply_vsync()
+	apply_window_mode()
 	apply_msaa()
 	apply_pixel_snap()
 	Engine.max_fps = fps_limit
@@ -561,6 +568,43 @@ func apply_vsync() -> void:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 		2:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
+
+
+func apply_window_mode() -> void:
+	var mode: int = clampi(window_mode, 0, 3)
+
+	match mode:
+		0:
+			# Janela normal.
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(
+				DisplayServer.WINDOW_FLAG_BORDERLESS,
+				false
+			)
+
+		1:
+			# Janela sem bordas.
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(
+				DisplayServer.WINDOW_FLAG_BORDERLESS,
+				true
+			)
+
+		2:
+			# Tela cheia exclusiva.
+			DisplayServer.window_set_flag(
+				DisplayServer.WINDOW_FLAG_BORDERLESS,
+				false
+			)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+
+		3:
+			# Tela cheia sem bordas / fullscreen não exclusivo.
+			DisplayServer.window_set_flag(
+				DisplayServer.WINDOW_FLAG_BORDERLESS,
+				false
+			)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 func apply_msaa() -> void:
@@ -1170,15 +1214,9 @@ func save_settings() -> void:
 
 	config.load(SAVE_PATH)
 
-	# Debug
-	config.set_value(
-		"general",
-		"debug",
-		debug_enabled
-	)
-
 	# Graphics
 	config.set_value("graphics", "vsync", vsync_mode)
+	config.set_value("graphics", "window_mode", window_mode)
 	config.set_value("graphics", "msaa_2d", msaa_2d)
 	config.set_value("graphics", "texture_filter_nearest", texture_filter_nearest)
 	config.set_value("graphics", "pixel_snap", pixel_snap_enabled)
@@ -1263,21 +1301,6 @@ func load_settings() -> void:
 	var err: Error = config.load(SAVE_PATH)
 
 	# -------------------------
-	# Debug
-	# -------------------------
-
-	if err == OK:
-		debug_enabled = bool(
-			config.get_value(
-				"general",
-				"debug",
-				false
-			)
-		)
-	else:
-		debug_enabled = false
-
-	# -------------------------
 	# Graphics
 	# -------------------------
 
@@ -1289,6 +1312,13 @@ func load_settings() -> void:
 			0,
 			2
 		)
+
+		window_mode = clampi(
+			int(config.get_value("graphics", "window_mode", default_window_mode)),
+			0,
+			3
+		)
+		pending_window_mode = window_mode
 
 		var saved_msaa: int = int(
 			config.get_value(
@@ -1339,6 +1369,7 @@ func load_settings() -> void:
 			fps_limit = 60
 	else:
 		set_graphics_to_inspector_defaults()
+		pending_window_mode = window_mode
 
 	apply_graphics_settings()
 
