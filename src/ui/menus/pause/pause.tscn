@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://ds7rgth6sp5vk"]
 
 [ext_resource type="Script" uid="uid://bxhprovs5bhs0" path="res://src/ui/menus/pause/pause.gd" id="1_3cp8b"]
-[ext_resource type="Texture2D" uid="uid://cxwj0jr5cfvlm" path="res://assets/environment/backgrounds/bg.png" id="2_cl15e"]
-[ext_resource type="Texture2D" uid="uid://didiqf81j1sdg" path="res://assets/environment/backgrounds/plans/plan3.png" id="3_uv64i"]
+[ext_resource type="Texture2D" uid="uid://d3dpqgs0b7p5t" path="res://assets/environment/backgrounds/plans/plan5.png" id="2_ptshk"]
+[ext_resource type="Texture2D" uid="uid://b01f2drypp3a6" path="res://assets/environment/backgrounds/bg2.png" id="2_txpd4"]
+[ext_resource type="Texture2D" uid="uid://dlc1wobjl823l" path="res://assets/environment/backgrounds/plans/plan1.png" id="4_lwqam"]
 [ext_resource type="Texture2D" uid="uid://bjn5gne8cnv8h" path="res://assets/logo/title .png" id="4_txpd4"]
-[ext_resource type="Texture2D" uid="uid://clixpc3eeltco" path="res://assets/environment/backgrounds/cloud.png" id="5_rik1f"]
+[ext_resource type="Texture2D" uid="uid://bn7bk31oqibh" path="res://assets/environment/backgrounds/plans/plan7.png" id="5_08q2x"]
+[ext_resource type="Texture2D" uid="uid://b0g40rbs8hmws" path="res://assets/environment/backgrounds/plans/plan4.png" id="6_wsx8i"]
 
 [sub_resource type="Animation" id="Animation_3cp8b"]
 length = 0.001
@@ -190,58 +192,42 @@ metadata/_edit_use_anchors_ = true
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1554510733]
 process_mode = 3
 modulate = Color(1, 1, 1, 0)
-position = Vector2(159.00002, 93.04169)
-scale = Vector2(0.17083333, 0.16844134)
-texture = ExtResource("2_cl15e")
+position = Vector2(161, 87.99999)
+scale = Vector2(0.5555556, 0.54320985)
+texture = ExtResource("2_ptshk")
+
+[node name="BG4" type="Sprite2D" parent="Sprite2D" unique_id=545205391]
+position = Vector2(-6.300049, -1.8409119)
+scale = Vector2(1.0218749, 1)
+texture = ExtResource("2_txpd4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" unique_id=714139003]
 process_mode = 3
 libraries/ = SubResource("AnimationLibrary_hp5oe")
 autoplay = &"pause_in"
 
-[node name="Borde1" type="Sprite2D" parent="Sprite2D" unique_id=60657236]
-process_mode = 3
-z_index = 2
-position = Vector2(14.2039795, -4.69989)
-scale = Vector2(3.382653, 3.3989925)
-texture = ExtResource("3_uv64i")
-flip_v = true
+[node name="BG" type="Sprite2D" parent="Sprite2D" unique_id=1423877307]
+position = Vector2(-88.2, 0.9204712)
+scale = Vector2(1, 1.028409)
+texture = ExtResource("4_lwqam")
 
-[node name="Borde2" type="Sprite2D" parent="Sprite2D" unique_id=1687721180]
-process_mode = 3
-z_index = 2
-position = Vector2(14.2039795, -22.510437)
-scale = Vector2(3.382653, 3.3989925)
-texture = ExtResource("3_uv64i")
+[node name="BG2" type="Sprite2D" parent="Sprite2D" unique_id=1724202595]
+position = Vector2(-7.199951, 7.3636475)
+scale = Vector2(1.01875, 1)
+texture = ExtResource("5_08q2x")
 
-[node name="Borde3" type="Sprite2D" parent="Sprite2D" unique_id=252071133]
-process_mode = 3
-z_index = 2
-position = Vector2(-395.7552, -124.91998)
-rotation = 1.5707964
-scale = Vector2(2.2353916, 3.4390543)
-texture = ExtResource("3_uv64i")
-
-[node name="Borde4" type="Sprite2D" parent="Sprite2D" unique_id=34616199]
-process_mode = 3
-z_index = 2
-position = Vector2(391.24463, -29.931396)
-rotation = -1.5707964
-scale = Vector2(1.8520765, 3.4390543)
-texture = ExtResource("3_uv64i")
+[node name="BG3" type="Sprite2D" parent="Sprite2D" unique_id=1222148836]
+position = Vector2(-6.299988, 7.3636475)
+scale = Vector2(1.0218749, 1)
+texture = ExtResource("6_wsx8i")
 
 [node name="Title" type="Sprite2D" parent="Sprite2D" unique_id=1526872126]
-position = Vector2(27.428528, -253.7482)
-scale = Vector2(0.5, 0.5)
+position = Vector2(145.8, -97.56817)
+scale = Vector2(0.13824219, 0.13565342)
 texture = ExtResource("4_txpd4")
 
-[node name="BG_Button" type="Sprite2D" parent="Sprite2D" unique_id=1451153936]
-modulate = Color(0.6745098, 0.7137255, 0.8509804, 1)
-position = Vector2(24.489689, 50.21518)
-scale = Vector2(2.957029, 3.1882722)
-texture = ExtResource("5_rik1f")
-
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1783743091]
+visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 offset_top = 88.0

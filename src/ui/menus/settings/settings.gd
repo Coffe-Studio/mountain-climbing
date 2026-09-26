@@ -2,7 +2,7 @@ extends CanvasLayer
 
 static var instance = null
 
-# Config
+# Configuration
 
 @export_group("Open / Close")
 @export var start_closed: bool = true
@@ -15,6 +15,8 @@ static var instance = null
 @export_range(0.0, 40.0, 1.0) var scrollbar_padding: float = 8.0
 @export_range(0.50, 1.50, 0.01) var ui_scale: float = 1.0
 @export var panel_color: Color = Color(0.12, 0.11, 0.16, 0.96)
+# Kept exposed for project-level theming. The current runtime UI does not use
+# these two values yet, so changing them has no visible effect at the moment.
 @export var sidebar_color: Color = Color(0.08, 0.075, 0.11, 1.0)
 @export var accent_color: Color = Color(0.48, 0.28, 1.0, 1.0)
 @export var animation_time: float = 0.22
@@ -57,9 +59,14 @@ var default_music_volume: float = 80.0
 @export_range(0.0, 100.0)
 var default_sfx_volume: float = 80.0
 
-# Vars
+# Runtime state
 
 const SAVE_PATH: String = "user://settings.cfg"
+
+# Supported values are kept in one place so the UI, validation, and save/load
+# logic cannot silently drift apart when a new option is added.
+const FPS_LIMITS: Array[int] = [30, 60, 120, 144, 240, 0]
+const MSAA_SAMPLE_COUNTS: Array[int] = [0, 2, 4, 8]
 
 
 var root_panel: Panel
@@ -72,10 +79,7 @@ var music_slider: HSlider
 var sfx_slider: HSlider
 
 
-var option_button_vsinc: OptionButton
-
 var waiting_action: String = ""
-var waiting_button: Button = null
 
 var key_buttons: Dictionary = {}
 var gamepad_buttons: Dictionary = {}
@@ -85,8 +89,8 @@ var opened: bool = false
 var tween: Tween = null
 
 
-# Graphics
-# Os valores abaixo aparecem no Inspector e definem os padrões do jogo.
+# Graphics settings
+# These values are exposed in the Inspector and act as the default game settings.
 @export_group("Graphics Defaults")
 @export_enum("Disabled:0", "Enabled:1", "Adaptive:2")
 var default_vsync_mode: int = 1
@@ -100,10 +104,10 @@ var default_msaa_2d: int = 0
 
 @export var default_texture_filter_nearest: bool = false
 
-# Mostra ou oculta a opção Pixel Snap no menu de configurações.
+# Show or hide the Pixel Snap option in the settings menu.
 @export var show_pixel_snap_option: bool = true
 
-# Define o estado padrão do Pixel Snap quando o usuário restaura os gráficos.
+# Default Pixel Snap state used when the player restores graphics settings.
 @export var default_pixel_snap_enabled: bool = false
 
 @export_enum("30 FPS:30", "60 FPS:60", "120 FPS:120", "144 FPS:144", "240 FPS:240", "Unlimited:0")
@@ -118,6 +122,9 @@ var pixel_snap_enabled: bool = false
 var fps_limit: int = 60
 
 
+## Initializes the settings manager and builds its entire UI at runtime.
+## The order matters: defaults and saved values must be loaded before the
+## visible page is rebuilt, otherwise the controls can display stale values.
 func _ready() -> void:
 	instance = self
 	layer = 999
@@ -139,39 +146,37 @@ func _ready() -> void:
 		open_settings_instant()
 
 
+## Handles both the settings toggle shortcut and interactive input remapping.
+## While a remap is active, the next valid keyboard key, gamepad button, or
+## sufficiently strong analog-axis movement is consumed by the remapping code.
 func _input(event: InputEvent) -> void:
-	# Remapeamento de teclado
+	# Keyboard binding remapping
 	if event is InputEventKey:
 		var key_event: InputEventKey = event as InputEventKey
 
 		if key_event.pressed and !key_event.echo:
-			if waiting_action != "":
-				if waiting_input_type == "keyboard":
-					remap_keyboard_action(waiting_action, key_event.keycode)
-					waiting_action = ""
-					waiting_input_type = ""
-					waiting_button = null
-					get_viewport().set_input_as_handled()
-					return
+			if waiting_action != "" and waiting_input_type == "keyboard":
+				remap_keyboard_action(waiting_action, key_event.keycode)
+				_finish_remap()
+				get_viewport().set_input_as_handled()
+				return
 
 			if key_event.keycode == toggle_key:
 				toggle_settings()
 				get_viewport().set_input_as_handled()
 				return
 
-	# Remapeamento de gamepad - botão
+	# Gamepad binding button remapping
 	if event is InputEventJoypadButton:
 		var joy_button: InputEventJoypadButton = event as InputEventJoypadButton
 
 		if joy_button.pressed and waiting_action != "" and waiting_input_type == "gamepad":
 			remap_gamepad_button(waiting_action, joy_button.button_index)
-			waiting_action = ""
-			waiting_input_type = ""
-			waiting_button = null
+			_finish_remap()
 			get_viewport().set_input_as_handled()
 			return
 
-	# Remapeamento de gamepad - eixo analógico
+	# Gamepad binding axis remapping
 	if event is InputEventJoypadMotion:
 		var joy_motion: InputEventJoypadMotion = event as InputEventJoypadMotion
 
@@ -182,15 +187,21 @@ func _input(event: InputEvent) -> void:
 					joy_motion.axis,
 					joy_motion.axis_value
 				)
-				waiting_action = ""
-				waiting_input_type = ""
-				waiting_button = null
+				_finish_remap()
 				get_viewport().set_input_as_handled()
 				return
 
 
+func _finish_remap() -> void:
+	waiting_action = ""
+	waiting_input_type = ""
+
+
 # UI
 
+## Creates the complete settings layout from code.
+## No scene hierarchy is required for the menu itself: this CanvasLayer builds
+## the panel, sidebar, scroll area, and page container during runtime.
 func build_ui() -> void:
 	root_panel = Panel.new()
 	add_child(root_panel)
@@ -248,8 +259,8 @@ func build_ui() -> void:
 
 	main.add_child(scroll_container)
 
-	# Reserva configurável para a barra de rolagem e limite de largura.
-	# Isso evita que o conteúdo ultrapasse visualmente o viewport do ScrollContainer.
+	# Reserve space for the scrollbar so the content keeps a predictable width.
+	# This prevents the content from visually reaching the edge of the ScrollContainer viewport.
 	var content_margin: MarginContainer = MarginContainer.new()
 	content_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -318,6 +329,10 @@ func create_sidebar_button(text: String, callback: Callable) -> void:
 # GENERAL
 # ============================================================
 
+## Rebuilds the General page and synchronizes each OptionButton with the
+## current runtime value.
+## Rebuilding the page keeps the code simple and avoids maintaining references
+## to every option control when the menu changes between pages.
 func show_general_page() -> void:
 	clear_container(content)
 
@@ -416,6 +431,9 @@ func show_general_page() -> void:
 	content.add_child(apply_btn)
 
 
+## Creates a reusable label + OptionButton row used by the General page.
+## The OptionButton is named so the caller can retrieve it from the returned row
+## without storing another dedicated member variable for every setting.
 func create_option_row(label_text: String, options: Array[String]) -> HBoxContainer:
 	var row: HBoxContainer = HBoxContainer.new()
 	row.add_theme_constant_override("separation", 4)
@@ -454,7 +472,7 @@ func set_graphics_to_inspector_defaults() -> void:
 	fps_limit = default_fps_limit
 	pending_window_mode = window_mode
 
-	if fps_limit != 0 and fps_limit != 30 and fps_limit != 60 and fps_limit != 120 and fps_limit != 144 and fps_limit != 240:
+	if !FPS_LIMITS.has(fps_limit):
 		fps_limit = 60
 
 
@@ -464,7 +482,7 @@ func reset_graphics_to_default() -> void:
 	apply_graphics_settings()
 	save_settings()
 
-	# Reconstrói a página para mostrar imediatamente os padrões do Inspector.
+	# Rebuild the page so the Inspector defaults are reflected immediately.
 	show_general_page()
 
 
@@ -534,8 +552,7 @@ func get_fps_index() -> int:
 
 
 func _on_fps_selected(index: int) -> void:
-	var values: Array[int] = [30, 60, 120, 144, 240, 0]
-	fps_limit = values[clampi(index, 0, values.size() - 1)]
+	fps_limit = FPS_LIMITS[clampi(index, 0, FPS_LIMITS.size() - 1)]
 	Engine.max_fps = fps_limit
 	save_settings()
 
@@ -545,12 +562,15 @@ func _on_fps_selected(index: int) -> void:
 # ============================================================
 
 func apply_graphics_changes() -> void:
-	# Window Mode só é aplicado quando o jogador confirma.
+	# Window Mode is only applied when the player confirms the changes.
 	window_mode = clampi(pending_window_mode, 0, 3)
 	apply_window_mode()
 	save_settings()
 
 
+## Applies every graphics setting to the current runtime.
+## This method is used during startup after loading the saved configuration and
+## is also useful when another system needs to re-apply all graphics at once.
 func apply_graphics_settings() -> void:
 	apply_vsync()
 	apply_window_mode()
@@ -570,12 +590,15 @@ func apply_vsync() -> void:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 
 
+## Converts the menu window-mode index into the corresponding DisplayServer mode.
+## Borderless state is configured explicitly for each case so switching between
+## fullscreen and windowed modes does not depend on a previous window state.
 func apply_window_mode() -> void:
 	var mode: int = clampi(window_mode, 0, 3)
 
 	match mode:
 		0:
-			# Janela normal.
+			# Standard windowed mode.
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			DisplayServer.window_set_flag(
 				DisplayServer.WINDOW_FLAG_BORDERLESS,
@@ -583,7 +606,7 @@ func apply_window_mode() -> void:
 			)
 
 		1:
-			# Janela sem bordas.
+			# Borderless windowed mode.
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			DisplayServer.window_set_flag(
 				DisplayServer.WINDOW_FLAG_BORDERLESS,
@@ -591,7 +614,7 @@ func apply_window_mode() -> void:
 			)
 
 		2:
-			# Tela cheia exclusiva.
+			# Exclusive fullscreen mode.
 			DisplayServer.window_set_flag(
 				DisplayServer.WINDOW_FLAG_BORDERLESS,
 				false
@@ -599,7 +622,7 @@ func apply_window_mode() -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 
 		3:
-			# Tela cheia sem bordas / fullscreen não exclusivo.
+			# Borderless fullscreen mode.
 			DisplayServer.window_set_flag(
 				DisplayServer.WINDOW_FLAG_BORDERLESS,
 				false
@@ -607,12 +630,16 @@ func apply_window_mode() -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
+## Applies the selected 2D anti-aliasing mode to the current viewport.
+## Compatibility rendering uses FXAA here, while renderers that expose 2D MSAA
+## receive the selected sample count. This keeps one settings option portable
+## across the supported renderers.
 func apply_msaa() -> void:
 	var viewport: Viewport = get_viewport()
 	var value: int = clampi(msaa_2d, 0, 3)
 
-	# O renderer Compatibility não suporta MSAA 2D.
-	# Nesse caso, usa FXAA como alternativa.
+	# In Compatibility mode, use FXAA instead of viewport MSAA.
+	# This keeps the anti-aliasing option functional in this renderer.
 	if RenderingServer.get_current_rendering_method() == "gl_compatibility":
 		viewport.screen_space_aa = (
 			Viewport.SCREEN_SPACE_AA_DISABLED
@@ -646,6 +673,10 @@ func apply_texture_filtering() -> void:
 	_apply_texture_filter_to_node(get_tree().root)
 
 
+## Recursively applies the selected texture filter to every CanvasItem.
+## The recursion is intentional: the menu is a project-level setting, so newly
+## discovered CanvasItem descendants are updated without requiring manual node
+## references throughout the project.
 func _apply_texture_filter_to_node(node: Node) -> void:
 	if node is CanvasItem:
 		var item: CanvasItem = node as CanvasItem
@@ -662,6 +693,9 @@ func _apply_texture_filter_to_node(node: Node) -> void:
 # CONTROLS
 # ============================================================
 
+## Rebuilds the Controls page from the actions declared in the Inspector.
+## Each row is generated from the same action name, which keeps keyboard and
+## gamepad displays aligned with InputMap instead of duplicating configuration.
 func show_controls_page() -> void:
 	clear_container(content)
 	key_buttons.clear()
@@ -680,8 +714,8 @@ func show_controls_page() -> void:
 
 	content.add_child(create_separator())
 
-	# Grid fixo para manter as três colunas alinhadas e impedir que
-	# a largura do conteúdo varie entre cabeçalho e linhas.
+	# Keep a fixed three-column grid so headers and rows stay aligned.
+	
 	var grid: GridContainer = GridContainer.new()
 	grid.columns = 3
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -724,7 +758,7 @@ func show_controls_page() -> void:
 		label.add_theme_font_size_override("font_size", 9)
 		grid.add_child(label)
 
-		# Teclado
+		# Keyboard binding
 		var key_button: Button = Button.new()
 		key_button.text = get_action_key_text(action)
 		key_button.custom_minimum_size.x = 72.0 * content_width_scale
@@ -738,7 +772,7 @@ func show_controls_page() -> void:
 		grid.add_child(key_button)
 		key_buttons[action] = key_button
 
-		# Gamepad
+		# Gamepad binding
 		var pad_button: Button = Button.new()
 		pad_button.text = get_action_gamepad_text(action)
 		pad_button.custom_minimum_size.x = 72.0 * content_width_scale
@@ -765,6 +799,9 @@ func show_controls_page() -> void:
 # AUDIO
 # ============================================================
 
+## Rebuilds the Audio page and creates one slider for each configured audio bus.
+## Sliders are initialized from the Inspector defaults, then overwritten with
+## persisted values when a settings file exists.
 func show_audio_page() -> void:
 	clear_container(content)
 
@@ -817,6 +854,9 @@ func show_audio_page() -> void:
 	content.add_child(apply_btn)
 
 
+## Builds a labeled volume slider and returns the slider itself.
+## The slider is placed inside its own VBoxContainer so the label and control
+## remain visually grouped while the caller can still access the value directly.
 func create_volume_slider(
 	label_text: String,
 	default_value: float
@@ -866,6 +906,9 @@ func apply_and_save_audio() -> void:
 	save_settings()
 
 
+## Reads saved audio values and applies them directly to the configured buses.
+## The sliders are not required here, which allows audio settings to be restored
+## during startup before the Audio page has been opened.
 func apply_audio_settings() -> void:
 	var config: ConfigFile = ConfigFile.new()
 
@@ -1010,6 +1053,9 @@ func reset_audio_to_default() -> void:
 # INPUT
 # ============================================================
 
+## Ensures every configured action exists and receives a default key when empty.
+## Existing InputMap bindings are preserved, so project-defined bindings are not
+## overwritten merely because the settings manager starts.
 func create_default_input_actions() -> void:
 	for i in action_names.size():
 		var action: String = action_names[i]
@@ -1023,25 +1069,41 @@ func create_default_input_actions() -> void:
 			InputMap.action_add_event(action, ev)
 
 
+## Marks an action as waiting for the next keyboard key and updates the button
+## so the player knows that input capture is active.
 func start_keyboard_remap(action: String, button: Button) -> void:
 	waiting_action = action
 	waiting_input_type = "keyboard"
-	waiting_button = button
 	button.text = "Press key..."
 
 
+## Marks an action as waiting for the next gamepad button or axis movement.
+## Axis input uses a threshold in _input() so small joystick noise is ignored.
 func start_gamepad_remap(action: String, button: Button) -> void:
 	waiting_action = action
 	waiting_input_type = "gamepad"
-	waiting_button = button
 	button.text = "Press button..."
+
+
+## Removes all keyboard, gamepad-button, and gamepad-axis bindings managed by
+## this settings script for the given action.
+func clear_action_bindings(action: String) -> void:
+	if !InputMap.has_action(action):
+		return
+
+	for event in InputMap.action_get_events(action):
+		if (
+			event is InputEventKey
+			or event is InputEventJoypadButton
+			or event is InputEventJoypadMotion
+		):
+			InputMap.action_erase_event(action, event)
 
 
 func remap_keyboard_action(action: String, keycode: Key) -> void:
 	if !InputMap.has_action(action):
 		return
 
-	# Remove somente eventos de teclado.
 	for event in InputMap.action_get_events(action):
 		if event is InputEventKey:
 			InputMap.action_erase_event(action, event)
@@ -1060,7 +1122,6 @@ func remap_gamepad_button(action: String, button_index: JoyButton) -> void:
 	if !InputMap.has_action(action):
 		return
 
-	# Remove somente eventos de gamepad.
 	for event in InputMap.action_get_events(action):
 		if event is InputEventJoypadButton:
 			InputMap.action_erase_event(action, event)
@@ -1100,6 +1161,10 @@ func remap_gamepad_axis(
 	save_settings()
 
 
+## Restores the configured keyboard defaults and removes custom gamepad
+## bindings for the managed actions.
+## Gamepad bindings are cleared rather than replaced with a fixed preset because
+## different games can expose different controller layouts.
 func reset_controls_to_default() -> void:
 	for i in action_names.size():
 		if i < default_keys.size():
@@ -1108,8 +1173,9 @@ func reset_controls_to_default() -> void:
 				default_keys[i]
 			)
 
-			# Remove gamepad bindings ao restaurar padrões.
+			# Remove all gamepad bindings when restoring defaults.
 			var action: String = action_names[i]
+
 			if InputMap.has_action(action):
 				for event in InputMap.action_get_events(action):
 					if event is InputEventJoypadButton or event is InputEventJoypadMotion:
@@ -1208,13 +1274,16 @@ func get_joy_axis_name(axis: JoyAxis, value: float) -> String:
 # SAVE / LOAD
 # ============================================================
 
+## Serializes the current graphics, audio, and input state into one ConfigFile.
+## The control sections are rebuilt on every save so an old key or gamepad-axis
+## entry cannot survive after the player changes or removes that binding.
 func save_settings() -> void:
 
 	var config: ConfigFile = ConfigFile.new()
 
 	config.load(SAVE_PATH)
 
-	# Graphics
+	# Graphics settings
 	config.set_value("graphics", "vsync", vsync_mode)
 	config.set_value("graphics", "window_mode", window_mode)
 	config.set_value("graphics", "msaa_2d", msaa_2d)
@@ -1222,17 +1291,17 @@ func save_settings() -> void:
 	config.set_value("graphics", "pixel_snap", pixel_snap_enabled)
 	config.set_value("graphics", "fps_limit", fps_limit)
 
-	# Mantém os valores nativos coerentes com o estado atual.
+	# Keep the runtime ProjectSettings values synchronized with the saved state.
 	ProjectSettings.set_setting(
 		"rendering/anti_aliasing/quality/msaa_2d",
-		[0, 2, 4, 8][clampi(msaa_2d, 0, 3)]
+		MSAA_SAMPLE_COUNTS[clampi(msaa_2d, 0, MSAA_SAMPLE_COUNTS.size() - 1)]
 	)
 	ProjectSettings.set_setting(
 		"rendering/2d/snap/snap_2d_transforms_to_pixel",
 		pixel_snap_enabled
 	)
 
-	# Audio
+	# Audio settings
 	if master_slider:
 		config.set_value(
 			"audio",
@@ -1254,11 +1323,17 @@ func save_settings() -> void:
 			sfx_slider.value
 		)
 
-	# Controls
+	# Control bindings
+	# These sections belong exclusively to this settings manager, so rebuilding
+	# them guarantees that removed or changed bindings do not remain on disk.
+	config.erase_section("keys")
+	config.erase_section("gamepad_buttons")
+	config.erase_section("gamepad_axes")
+
 	for action_variant in action_names:
 		var action: String = str(action_variant)
 
-		# Keyboard
+		# Keyboard binding
 		for event in InputMap.action_get_events(action):
 			if event is InputEventKey:
 				config.set_value(
@@ -1268,7 +1343,7 @@ func save_settings() -> void:
 				)
 				break
 
-		# Gamepad button
+		# Gamepad binding button
 		for event in InputMap.action_get_events(action):
 			if event is InputEventJoypadButton:
 				config.set_value(
@@ -1278,7 +1353,7 @@ func save_settings() -> void:
 				)
 				break
 
-		# Gamepad axis
+		# Gamepad binding axis
 		for event in InputMap.action_get_events(action):
 			if event is InputEventJoypadMotion:
 				var motion: InputEventJoypadMotion = event as InputEventJoypadMotion
@@ -1292,16 +1367,22 @@ func save_settings() -> void:
 				)
 				break
 
-	config.save(SAVE_PATH)
+	var save_error: Error = config.save(SAVE_PATH)
+
+	if save_error != OK:
+		push_warning("Failed to save settings: " + error_string(save_error))
 
 
+## Loads persisted settings, falls back to Inspector defaults, and applies them.
+## Graphics are restored first because they affect the runtime immediately; input
+## actions are rebuilt afterward from the saved configuration.
 func load_settings() -> void:
 
 	var config: ConfigFile = ConfigFile.new()
 	var err: Error = config.load(SAVE_PATH)
 
 	# -------------------------
-	# Graphics
+	# Graphics settings
 	# -------------------------
 
 	set_graphics_to_inspector_defaults()
@@ -1328,7 +1409,7 @@ func load_settings() -> void:
 			)
 		)
 
-		# Compatibilidade com a versão anterior que salvava 0/2/4/8.
+		# Convert values saved by older versions, which stored the actual MSAA sample count.
 		match saved_msaa:
 			0:
 				msaa_2d = 0
@@ -1365,7 +1446,7 @@ func load_settings() -> void:
 			)
 		)
 
-		if fps_limit != 0 and fps_limit != 30 and fps_limit != 60 and fps_limit != 120 and fps_limit != 144 and fps_limit != 240:
+		if !FPS_LIMITS.has(fps_limit):
 			fps_limit = 60
 	else:
 		set_graphics_to_inspector_defaults()
@@ -1375,7 +1456,7 @@ func load_settings() -> void:
 
 
 	# -------------------------
-	# Idioma
+	# Language
 	# -------------------------
 
 	var loc_mgr: Node = get_node_or_null(
@@ -1394,7 +1475,7 @@ func load_settings() -> void:
 		loc_mgr.change_language(saved_lang)
 
 	# -------------------------
-	# Controls
+	# Control bindings
 	# -------------------------
 
 	if err != OK:
@@ -1406,19 +1487,17 @@ func load_settings() -> void:
 		if !InputMap.has_action(action):
 			InputMap.add_action(action)
 
-		# Remove somente bindings salvos anteriormente para poder reconstruir.
-		for event in InputMap.action_get_events(action):
-			if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
-				InputMap.action_erase_event(action, event)
+		# Clear the current bindings before rebuilding them from the saved configuration.
+		clear_action_bindings(action)
 
-		# Keyboard
+		# Keyboard binding
 		if config.has_section_key("keys", action):
 			var keycode: Key = int(config.get_value("keys", action)) as Key
 			var key_event: InputEventKey = InputEventKey.new()
 			key_event.keycode = keycode
 			InputMap.action_add_event(action, key_event)
 
-		# Gamepad button
+		# Gamepad binding button
 		if config.has_section_key("gamepad_buttons", action):
 			var button_index: JoyButton = int(
 				config.get_value("gamepad_buttons", action)
@@ -1428,7 +1507,7 @@ func load_settings() -> void:
 			pad_event.device = -1
 			InputMap.action_add_event(action, pad_event)
 
-		# Gamepad axis
+		# Gamepad binding axis
 		if config.has_section_key("gamepad_axes", action):
 			var axis_data = config.get_value("gamepad_axes", action)
 
@@ -1520,6 +1599,9 @@ func open_settings() -> void:
 	)
 
 
+## Animates the panel out of view and hides it after the transition completes.
+## Waiting for the tween prevents the panel from being hidden before the closing
+## animation has finished.
 func close_settings() -> void:
 
 	if !opened:

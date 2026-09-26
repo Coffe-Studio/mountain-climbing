@@ -10,14 +10,6 @@
 [ext_resource type="AudioStream" uid="uid://begmuiblc4tj6" path="res://assets/sonds/Menus/Sondtracks_Intro_p2_.wav" id="5_pm78a"]
 [ext_resource type="Texture2D" uid="uid://cu870wssrc8jf" path="res://assets/environment/neve.png" id="9_j1eut"]
 
-[sub_resource type="Gradient" id="Gradient_j1eut"]
-colors = PackedColorArray(0.62352943, 0.68235296, 0.827451, 1, 0.62352943, 0.6862745, 0.827451, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j1eut"]
-gradient = SubResource("Gradient_j1eut")
-fill_from = Vector2(0.53110045, 0)
-fill_to = Vector2(0.5119617, 1)
-
 [sub_resource type="Animation" id="Animation_g22xl"]
 resource_name = "Camera_IN"
 tracks/0/type = "value"
@@ -479,7 +471,6 @@ _data = {
 
 [sub_resource type="LabelSettings" id="LabelSettings_lt4el"]
 font_size = 8
-shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.1882353)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0cpe"]
@@ -501,19 +492,18 @@ scroll_scale = Vector2(0.2, 1)
 scroll_offset = Vector2(-120, 72)
 autoscroll = Vector2(1, 0)
 
-[node name="ColorRect" type="TextureRect" parent="BG" unique_id=39988886]
-offset_left = 89.0
-offset_top = -189.0
-offset_right = 581.0
-offset_bottom = -93.0
-texture = SubResource("GradientTexture2D_j1eut")
-metadata/_edit_use_anchors_ = true
-
 [node name="B" type="Sprite2D" parent="BG" unique_id=1654534544]
 position = Vector2(336.00003, 7.999996)
 scale = Vector2(0.2546875, 0.21018517)
 texture = ExtResource("2_34mvd")
 flip_h = true
+
+[node name="BB" type="Sprite2D" parent="BG" unique_id=1129851025]
+position = Vector2(336, -218)
+scale = Vector2(0.2546875, 0.21018517)
+texture = ExtResource("2_34mvd")
+flip_h = true
+flip_v = true
 
 [node name="HH" type="Sprite2D" parent="BG" unique_id=1800590269]
 position = Vector2(96.00001, 8.000002)
@@ -594,7 +584,7 @@ text = "Quit "
 offset_top = 169.0
 offset_right = 40.0
 offset_bottom = 181.0
-text = "17/09/2026 (0007 )"
+text = "17/09/2026 (0007,1)"
 label_settings = SubResource("LabelSettings_lt4el")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -603,7 +593,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Settings" parent="." unique_id=934493892 node_paths=PackedStringArray("open_button") instance=ExtResource("5_34mvd")]
 follow_viewport_enabled = true
 open_button = NodePath("../Buttons/Settings")
-animation_time = 0.22
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2105287038]
 position = Vector2(184, 88)

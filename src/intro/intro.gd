@@ -2,4 +2,4 @@ extends Control
 
 
 func _on_video_stream_player_finished():
-	get_tree().change_scene_to_file("res://src/loading/type/initial/loading_initial.tscn")
+	get_tree().change_scene_to_file("res://src/ui/menus/main/Main menu.tscn")

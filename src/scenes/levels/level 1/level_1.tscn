@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://n5ujk4qve1aq" path="res://src/ui/hud/hud.tscn" id="5_pxoqw"]
 [ext_resource type="PackedScene" uid="uid://ds7rgth6sp5vk" path="res://src/ui/menus/pause/pause.tscn" id="6_d6s7s"]
 [ext_resource type="Texture2D" uid="uid://bckc8c4yawt3l" path="res://assets/environment/tree.png" id="6_w7ciw"]
+[ext_resource type="Texture2D" uid="uid://didiqf81j1sdg" path="res://assets/environment/backgrounds/plans/plan3.png" id="7_cqrsl"]
 [ext_resource type="AudioStream" uid="uid://5h3mayhuna1e" path="res://assets/sonds/SFX/Neve.wav" id="8_cqrsl"]
 [ext_resource type="Texture2D" uid="uid://u3pu4wbdpj8g" path="res://assets/tilesets/blue-walls-8x8.png" id="9_cdw1i"]
 [ext_resource type="Texture2D" uid="uid://cu870wssrc8jf" path="res://assets/environment/neve.png" id="10_xg6jm"]
@@ -5348,12 +5349,12 @@ flip_h = true
 
 [node name="BBB" type="Sprite2D" parent="BG/BG" unique_id=845344643]
 modulate = Color(1.0274998, 1.1237086, 1.3221394, 1)
-position = Vector2(402, 68)
-scale = Vector2(0.5, 0.5)
+position = Vector2(409, 51)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_pxoqw")
 
 [node name="H" type="Sprite2D" parent="BG/BG" unique_id=1506153149]
-position = Vector2(22, 6)
+position = Vector2(21.999996, -14)
 scale = Vector2(0.7013889, 0.7)
 texture = ExtResource("2_3yldc")
 
@@ -5363,11 +5364,16 @@ scale = Vector2(0.7013889, 0.7)
 texture = ExtResource("2_3yldc")
 
 [node name="HHH" type="Sprite2D" parent="BG/BG" unique_id=136379684]
-position = Vector2(371.00003, 51)
+position = Vector2(371.00003, 30)
 scale = Vector2(0.71493053, 0.7)
 texture = ExtResource("3_od2ns")
 
-[node name="HHHH" type="Sprite2D" parent="BG/BG" unique_id=1824135558]
+[node name="HHHH" type="Sprite2D" parent="BG/BG" unique_id=119932237]
+position = Vector2(-39.99997, 28)
+scale = Vector2(0.71493053, 0.7)
+texture = ExtResource("3_od2ns")
+
+[node name="HHHHH" type="Sprite2D" parent="BG/BG" unique_id=1824135558]
 position = Vector2(782, 51)
 scale = Vector2(0.71493053, 0.7)
 texture = ExtResource("3_od2ns")
@@ -5379,13 +5385,20 @@ repeat_size = Vector2(288, 0)
 autoscroll = Vector2(1, 0)
 repeat_times = 10
 
-[node name="HHHHH" type="Sprite2D" parent="BG/BG/Parallax2D" unique_id=1151137851]
+[node name="HHHHHH" type="Sprite2D" parent="BG/BG/Parallax2D" unique_id=1151137851]
 modulate = Color(1.0274998, 1.1237086, 1.3221394, 1)
-position = Vector2(321, 167)
+position = Vector2(321, 161)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6s7s")
 
+[node name="HHHHHHH" type="Sprite2D" parent="BG/BG/Parallax2D" unique_id=644073433]
+modulate = Color(1.3084322, 1.3084322, 1.3084322, 1)
+position = Vector2(321, 161)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_cqrsl")
+
 [node name="BG_Title" type="Parallax2D" parent="BG" unique_id=1372565181]
+visible = false
 z_index = -1
 scroll_offset = Vector2(-83, -2)
 
@@ -5457,7 +5470,7 @@ texture = ExtResource("6_w7ciw")
 flip_h = true
 
 [node name="Alys" parent="." unique_id=89236313 groups=["DebugDisplay"] instance=ExtResource("4_xg6jm")]
-position = Vector2(-296, 107)
+position = Vector2(-296, 109)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Alys" unique_id=1688119168]
 process_mode = 3
@@ -5473,6 +5486,7 @@ trail_lifetime = 5.0
 process_material = ExtResource("14_od2ns")
 
 [node name="HUD" type="CanvasLayer" parent="Alys" unique_id=793370381]
+visible = false
 
 [node name="Fade" type="ColorRect" parent="Alys/HUD" unique_id=357503594]
 anchors_preset = -1
